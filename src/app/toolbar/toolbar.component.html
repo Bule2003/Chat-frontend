@@ -1,17 +1,28 @@
 <mat-toolbar color="primary">
+  <div>
+    <button (click)="onNavigate('/')" id="home" mat-fab color="primary" aria-label="Example icon button with a home icon">
+      <mat-icon>home</mat-icon>
+    </button>
+  </div>
     <span>{{ title }}</span>
 
     <span class="example-spacer"></span>
 
     <div id="div_navbar">
       <ul id="ul_navbar">
-        <li><a (click)="onNavigate('chat')" routerLink="/chat" routerLinkActive="active" ariaCurrentWhenActive="page">Start Chatting</a></li>
-        <li><a routerLink="/features" routerLinkActive="active"
+        <li><a routerLink="/chat"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="page">Start Chatting</a></li>
+        <li><a routerLink="/features"
+               routerLinkActive="active"
                ariaCurrentWhenActive="page">Features</a></li>
-        <li><a routerLink="/about-us" routerLinkActive="active"
+        <li><a routerLink="/about-us"
+               routerLinkActive="active"
                ariaCurrentWhenActive="page">About Us</a></li>
-        <li><a routerLink="/sign-in" routerLinkActive="active"
-               ariaCurrentWhenActive="page">Sign In</a></li>
+        <li><a id="a_login"
+               routerLink="/login"
+               routerLinkActive="active"
+               ariaCurrentWhenActive="page">Login</a></li>
       </ul>
     </div>
 </mat-toolbar>

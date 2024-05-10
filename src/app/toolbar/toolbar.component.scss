@@ -1,7 +1,29 @@
-a {
+  a {
   color:white;
   padding: 10px;
   text-decoration: none;
+}
+
+a:hover {
+  background: #272788;
+  border-radius: 10px;
+}
+
+.active {
+  background: #272788;
+  border-radius: 10px;
+}
+
+#a_login {
+  margin: 5px;
+  background: deeppink;
+  border-radius: 10px;
+}
+
+#a_login:hover {
+  margin: 5px;
+  background: #f447a4;
+  border-radius: 10px;
 }
 
 .example-spacer {
@@ -13,5 +35,11 @@ a {
 }
 
 #ul_navbar li{
+  margin: 10px 10px 10px 10px;
   display: inline;
+}
+
+#home {
+  margin-left: 8px;
+  margin-right: 20px;
 }

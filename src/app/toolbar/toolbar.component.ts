@@ -3,6 +3,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-toolbar',
@@ -13,7 +14,8 @@ import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from
     MatButtonModule,
     RouterLink,
     RouterLinkActive,
-    RouterOutlet
+    RouterOutlet,
+    ReactiveFormsModule
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss'
@@ -21,13 +23,9 @@ import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from
 export class ToolbarComponent{
   @Input() title: string | undefined;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
-  onNavigate(title: string) {
-    this.title = title;
+  onNavigate(url: string) {
+    this.router.navigateByUrl(url);
   }
-
-  /*private capitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }*/
 }

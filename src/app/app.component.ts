@@ -10,10 +10,14 @@ import {ToolbarComponent} from "./toolbar/toolbar.component";
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = '';
 
   constructor(private router: Router) {
+
+  }
+
+  ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.title = this.getTitleFromRoute(this.router.routerState, this.router.routerState.root).join(' - ');
