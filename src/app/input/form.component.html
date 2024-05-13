@@ -1,0 +1,33 @@
+<div class="form-div">
+  <h2>Sign in</h2>
+  <form [formGroup]="form" class="example-form" (ngSubmit)="onSubmit()" >
+    <mat-form-field class="example-full-width">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
+             placeholder="Ex. pat@example.com"
+      >
+      <mat-hint>Please enter your email address.</mat-hint>
+      @if (form.controls['email'].hasError('email') && !form.controls['email'].hasError('required')) {
+        <mat-error>Please enter a valid email address</mat-error>
+      }
+      @if (form.controls['email'].hasError('required')) {
+        <mat-error>Email is <strong>required</strong></mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Password</mat-label>
+      <input type="password" formControlName="password" matInput [errorStateMatcher]="matcher"
+             placeholder="password">
+      <mat-hint>Please enter your password.</mat-hint>
+      <!--@if (passwordFormControl.hasError('email') && !passwordFormControl.hasError('required')) {
+        <mat-error>Please enter a valid password</mat-error>
+      }
+      @if (passwordFormControl.hasError('required')) {
+        <mat-error>Password is <strong>required</strong></mat-error>
+      }-->
+    </mat-form-field>
+    <div class="submit-div">
+      <button class="sign-in-btn" mat-flat-button color="primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>

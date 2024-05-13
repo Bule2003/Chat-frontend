@@ -1,4 +1,4 @@
-  a {
+a {
   color:white;
   padding: 10px;
   text-decoration: none;
@@ -9,18 +9,36 @@ a:hover {
   border-radius: 10px;
 }
 
+.a_login:hover {
+  margin: 5px;
+  background: #f447a4;
+  border-radius: 10px;
+}
+
 .active {
   background: #272788;
   border-radius: 10px;
 }
 
-#a_login {
+.a_login {
   margin: 5px;
   background: deeppink;
   border-radius: 10px;
 }
 
-#a_login:hover {
+.login-btn {
+  padding: 10px;
+  margin: 5px;
+  height: 44px;
+  color: white;
+  background: deeppink;
+  font-size: large;
+  border-radius: 10px;
+  border: none;
+  width: 90px
+}
+
+.login-btn:hover {
   margin: 5px;
   background: #f447a4;
   border-radius: 10px;

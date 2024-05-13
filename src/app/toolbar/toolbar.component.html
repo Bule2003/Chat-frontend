@@ -19,10 +19,24 @@
         <li><a routerLink="/about-us"
                routerLinkActive="active"
                ariaCurrentWhenActive="page">About Us</a></li>
-        <li><a id="a_login"
-               routerLink="/login"
-               routerLinkActive="active"
-               ariaCurrentWhenActive="page">Login</a></li>
+        <li *ngIf="!accountService.isLoggedIn">
+          <button
+             class="login-btn"
+             type="submit"
+             (click)="onNavigate('/login')"
+          >
+            Sign In
+          </button>
+        </li>
+        <li *ngIf="accountService.isLoggedIn" >
+          <button
+            class="login-btn"
+             type="submit"
+             (click)="handleLogout()"
+          >
+            Sign Out
+          </button>
+        </li>
       </ul>
     </div>
 </mat-toolbar>

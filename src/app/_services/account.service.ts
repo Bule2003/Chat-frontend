@@ -1,6 +1,6 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {BehaviorSubject, catchError, Observable, throwError} from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -9,40 +9,41 @@ import { User } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-  private userSubject: BehaviorSubject<User | null>;
-  public user: Observable<User | null>;
+  private userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
+  public user = this.userSubject.asObservable();
+  public isLoggedIn = false;
 
   constructor(private injector: Injector) {
-    this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
-    this.user = this.userSubject.asObservable();
-  }
-
-  private get router(): Router {
-    return this.injector.get(Router);
-  }
-
-  private get http(): HttpClient {
-    return this.injector.get(HttpClient);
+    /*this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
+    this.user = this.userSubject.asObservable();*/
   }
 
   public get userValue() {
     return this.userSubject.value;
   }
 
-  login(username: string | null, password: string | null) {
-    return this.http.post<User>(`${environment.apiUrl}/users/authenticate`, { username, password })
+  #router = inject(Router);
+  #http = inject(HttpClient);
+
+  login(email: string | null, password: string | null) {
+    return this.#http.post<User>(`${environment.apiUrl}/login`, { email, password })
       .pipe(map(user => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        console.log('Logged in User', user);
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
         return user;
+      }),
+      catchError(error => {
+        console.error('Error:', error);
+        return throwError(error);
       }));
   }
 
   logout() {
     // remove user from local storage and set current user to null
+    this.isLoggedIn = false;
     localStorage.removeItem('user');
     this.userSubject.next(null);
-    this.router.navigate(['/login']);
+    this.#router.navigate(['/login']);
   }
 }
