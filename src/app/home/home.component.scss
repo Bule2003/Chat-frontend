@@ -1,0 +1,35 @@
+.center-text {
+  padding-top: 12px;
+  padding-bottom: 16px;
+  text-align: center;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+#footer {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background: #3f51b5;
+  color: white;
+  font-size: large;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3rem;
+  line-height: 3rem;
+}
+
+a {
+  color: deepskyblue;
+  text-decoration: underline;
+}

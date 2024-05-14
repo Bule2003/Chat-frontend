@@ -7,7 +7,7 @@ import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "@app/register/register.component";
 
 export const ROUTES: Routes = [
-  {path: '', component: HomeComponent, data: { title: 'Home' }},
+  {path: '', component: HomeComponent, data: { title: 'Chatify' }},
   {path: 'chat', component: ChatComponent, data: { title: 'Chat' }},
   {path: 'features', component: FeaturesComponent, data: { title: 'Features' }}, // TODO: add components
   {path: 'about-us', component: AboutUsComponent, data: { title: 'About Us' }},

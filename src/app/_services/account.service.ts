@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
 
+// TODO: optional->prompt the user to verify their email address
+
 @Injectable({ providedIn: 'root' })
 export class AccountService {
   private userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
@@ -45,5 +47,19 @@ export class AccountService {
     localStorage.removeItem('user');
     this.userSubject.next(null);
     this.#router.navigate(['/login']);
+  }
+
+  register(first_name: string | null, last_name: string | null, username: string | null ,    email: string | null, password: string | null, password_confirmation: string | null) {
+    return this.#http.post<User>(`${environment.apiUrl}/register`, {first_name, last_name, username, email, password, password_confirmation})
+      .pipe(map(user => {
+        console.log('Registered User', user);
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userSubject.next(user);
+        return user;
+      }),
+      catchError(error => {
+        console.error('Error', error);
+        return throwError(error);
+      }));
   }
 }

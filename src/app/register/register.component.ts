@@ -11,7 +11,7 @@ import {
 import {MatButton} from "@angular/material/button";
 import {MatError, MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AccountService} from "@app/_services";
 import {first} from "rxjs/operators";
 import {ErrorStateMatcher} from "@angular/material/core";
@@ -34,7 +34,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatHint,
     MatInput,
     MatLabel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -61,9 +63,12 @@ export class RegisterComponent implements OnInit{
 
   ngOnInit() {
     this.form = this.formBuilder.group({
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      username: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      password_confirmation: ['', Validators.required],
     });
   }
 
@@ -83,7 +88,7 @@ export class RegisterComponent implements OnInit{
     }
 
     this.loading = true;
-    /*this.accountService.register(this.f.email.value, this.f.password.value, this.f.confirmPassword.value)
+    this.accountService.register(this.f.first_name.value, this.f.last_name.value, this.f.username.value, this.f.email.value, this.f.password.value, this.f.password_confirmation.value)
       .pipe(first())
       .subscribe({
         next: () => {
@@ -96,6 +101,6 @@ export class RegisterComponent implements OnInit{
           this.error = error;
           this.loading = false;
         }
-      });*/
+      });
   }
 }

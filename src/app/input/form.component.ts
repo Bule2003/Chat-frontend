@@ -12,7 +12,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {ButtonComponent} from "@app/ui/button/button.component";
 import {MatButton} from "@angular/material/button";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AccountService} from "@app/_services";
 import {first} from "rxjs/operators";
 
@@ -36,7 +36,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatInputModule,
     ReactiveFormsModule,
     ButtonComponent,
-    MatButton
+    MatButton,
+    RouterLink,
+    RouterLinkActive
   ],
 })
 export class FormComponent implements OnInit {

@@ -28,26 +28,16 @@ export class ToolbarComponent{
   @Input() title: string | undefined;
 
   constructor(
-    private router: Router,
-    public accountService: AccountService
   ) { }
 
+  #router = inject(Router);
+  public accountService = inject(AccountService);
+
   onNavigate(url: string) {
-    this.router.navigateByUrl(url);
+    this.#router.navigateByUrl(url);
   }
 
   handleLogout() {
-    this.accountService.logout()
-      /*.pipe(first())
-      .subscribe({
-        next: () => {
-          this.accountService.isLoggedIn = false;
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.router.navigateByUrl(returnUrl);
-        },
-        error: error => {
-          this.error = error;
-        }
-      })*/
+    this.accountService.logout();
   }
 }

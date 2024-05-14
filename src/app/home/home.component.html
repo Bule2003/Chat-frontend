@@ -1,1 +1,29 @@
-<h1>Home</h1>
+<body>
+  <div id="page-container">
+    <div id="content-wrap">
+      <h1>Chatify</h1>
+      <section>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dictum vehicula aliquam. Integer condimentum purus bibendum mattis aliquet. Nunc nisl felis, lobortis eget est eget, auctor fermentum erat. Proin porta dignissim pulvinar. Aenean et consectetur erat, nec dapibus nulla. Duis dignissim sed est in dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lacinia mauris ut velit sodales porttitor sit amet tincidunt nisl. Nunc ultrices finibus augue, nec consequat tellus posuere eu. Integer viverra leo mattis, venenatis turpis non, cursus odio. Aliquam erat volutpat.
+
+          Mauris auctor nisl in dignissim maximus. In hac habitasse platea dictumst. Aliquam at justo pulvinar purus tristique feugiat. Mauris quis ipsum aliquet, varius mauris eget, vulputate arcu. Donec et nisi blandit, aliquam elit sit amet, lacinia lacus. Nullam eu euismod felis. Ut vehicula felis sit amet condimentum cursus. Suspendisse lectus neque, venenatis id est porttitor, tempus varius felis. Vestibulum posuere efficitur erat.
+
+          Etiam nec felis placerat eros gravida ornare. Nulla imperdiet ultrices metus eget posuere. Aliquam erat volutpat. Nunc magna nulla, dignissim et ex at, convallis tristique massa. In libero eros, ultrices non tempus placerat, egestas eget ligula. Etiam non leo molestie, sagittis justo in, tincidunt lorem. Proin condimentum tempor faucibus. Vestibulum id laoreet nunc.
+
+          Sed metus mi, cursus vitae ante at, mattis maximus dui. Praesent et blandit mauris. Nam est sem, lobortis quis condimentum nec, fringilla et neque. Phasellus quis tristique massa. Ut ut nulla efficitur urna tempus lacinia eget in odio. Phasellus vitae tempor ante. Proin posuere volutpat risus id dapibus. Quisque vitae erat non erat gravida feugiat in sit amet ante. Sed a volutpat nisl. Nunc ullamcorper volutpat erat ac cursus. Nam felis arcu, volutpat eu nisi sed, ullamcorper imperdiet libero. Nam lacinia augue consectetur hendrerit ornare. Curabitur sed eros augue.
+
+          Quisque placerat erat ac quam blandit malesuada. In et dui leo. Cras porttitor, diam vel rhoncus suscipit, tortor tortor laoreet turpis, ultricies malesuada metus sapien a lorem. Aenean quam quam, sagittis quis leo quis, hendrerit varius elit. Quisque sed interdum lectus, vel convallis quam. Etiam eget eros at ligula eleifend porta at mattis arcu. Vestibulum ac commodo felis. Vivamus et venenatis nisl, ac convallis nisl. Pellentesque non nunc venenatis, venenatis tortor sit amet, cursus ligula. Donec condimentum leo facilisis ipsum aliquet convallis. Sed suscipit eu libero quis aliquet. Sed sit amet lectus eu nulla sagittis cursus. Aenean ut ligula sed elit fringilla interdum eu vel tortor.
+        </p>
+      </section>
+      <div *ngIf="accountService.isLoggedIn" class="center-text">
+        <h3>Click on the Chat in the toolbar or <a routerLink="/chat" routerLinkActive="active" ariaCurrentWhenActive="page">click here</a> to start!</h3>
+      </div>
+      <div *ngIf="!accountService.isLoggedIn" class="center-text">
+        <h3>Start by <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">signing in</a> with your account!</h3>
+      </div>
+    </div>
+      <footer id="footer">
+        &copy;MakeDev
+      </footer>
+  </div>
+</body>
