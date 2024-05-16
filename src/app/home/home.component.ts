@@ -8,8 +8,8 @@ import {NgIf} from "@angular/common";
   standalone: true,
   imports: [
     RouterLink,
-    RouterLinkActive,
     NgIf,
+    RouterLinkActive,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

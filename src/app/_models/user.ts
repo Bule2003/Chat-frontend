@@ -5,5 +5,4 @@ export class User {
   password_confirmation?: string; // maybe unneeded
   firstName?: string;
   lastName?: string;
-  token?: string
 }

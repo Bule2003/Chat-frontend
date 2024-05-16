@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
+import {AuthResponse} from "@app/_models/authResponse";
 
 // TODO: optional->prompt the user to verify their email address
 
@@ -13,53 +14,86 @@ import { User } from '@app/_models';
 export class AccountService {
   private userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
   public user = this.userSubject.asObservable();
+
+  private tokenSubject: BehaviorSubject<string | null>;
+  public token: Observable<string | null>;
   public isLoggedIn = false;
+
 
   constructor(private injector: Injector) {
     /*this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
     this.user = this.userSubject.asObservable();*/
+    this.tokenSubject = new BehaviorSubject<string | null>(localStorage.getItem('token'));
+    this.token = this.tokenSubject.asObservable();
+    this.isLoggedIn = !!this.tokenSubject.value;
   }
 
   public get userValue() {
     return this.userSubject.value;
   }
 
+
+
+  public get tokenValue() {
+    return this.tokenSubject.value;
+  }
+
   #router = inject(Router);
   #http = inject(HttpClient);
 
   login(email: string | null, password: string | null) {
-    return this.#http.post<User>(`${environment.apiUrl}/login`, { email, password })
-      .pipe(map(user => {
-        console.log('Logged in User', user);
-        localStorage.setItem('user', JSON.stringify(user));
-        this.userSubject.next(user);
-        return user;
+    return this.#http.post<AuthResponse>(`${environment.apiUrl}/login`, { email, password })
+      .pipe(map(response => {
+        localStorage.setItem('token', response.authorisation.token);
+        this.tokenSubject.next(response.authorisation.token);
+        this.isLoggedIn = true;
+        return response;
       }),
       catchError(error => {
         console.error('Error:', error);
         return throwError(error);
       }));
+
+    /*if (response.status === 401){
+      return console.log();
+    }*/
   }
 
   logout() {
     // remove user from local storage and set current user to null
+    localStorage.removeItem('token');
+    this.tokenSubject.next(null);
     this.isLoggedIn = false;
-    localStorage.removeItem('user');
-    this.userSubject.next(null);
     this.#router.navigate(['/login']);
+    /*localStorage.removeItem('user');
+    this.tokenSubject.next(null);
+    this.#router.navigate(['/login']);*/
+
   }
 
   register(first_name: string | null, last_name: string | null, username: string | null ,    email: string | null, password: string | null, password_confirmation: string | null) {
-    return this.#http.post<User>(`${environment.apiUrl}/register`, {first_name, last_name, username, email, password, password_confirmation})
-      .pipe(map(user => {
-        console.log('Registered User', user);
-        localStorage.setItem('user', JSON.stringify(user));
-        this.userSubject.next(user);
-        return user;
+    return this.#http.post<AuthResponse>(`${environment.apiUrl}/register`, {first_name, last_name, username, email, password, password_confirmation})
+      .pipe(map(response => {
+        localStorage.setItem('token', response.authorisation.token);
+        this.tokenSubject.next(response.authorisation.token);
+        return response;
       }),
       catchError(error => {
-        console.error('Error', error);
+        console.error('Error:', error);
         return throwError(error);
-      }));
+      })
+    );
   }
+
+  /*getToken() : string | null {
+    return this.tokenSubject.value;
+  }*/
+
+  /*checkByCredential(email: string, password: string) {
+    const user = { email: email, password: password };
+    return this.#http.post('http://localhost:8080/checkByCredential', user)
+      .pipe(
+        map((result: any) => result.json())
+      );
+  }*/
 }

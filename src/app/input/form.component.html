@@ -19,15 +19,16 @@
       <input type="password" formControlName="password" matInput [errorStateMatcher]="matcher"
              placeholder="password">
       <mat-hint>Please enter your password.</mat-hint>
-      <!--@if (passwordFormControl.hasError('email') && !passwordFormControl.hasError('required')) {
-        <mat-error>Please enter a valid password</mat-error>
-      }
-      @if (passwordFormControl.hasError('required')) {
+      @if (form.controls['password'].hasError('required')) {
         <mat-error>Password is <strong>required</strong></mat-error>
-      }-->
+      }
+      @if (form.controls['password'].hasError('unauthenticated')) {
+        <mat-error>Email or password incorrect</mat-error>
+      }
     </mat-form-field>
+    <!--TODO: (click)="checkByCredential(username.value,password.value)"-->
     <div class="submit-div">
-      <button class="sign-in-btn" mat-flat-button color="primary" type="submit">Submit</button>
+      <button class="sign-in-btn" mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
     </div>
     Don't have an account? <a routerLink="/register" routerLinkActive="active" ariaCurrentWhenActive="page" id="register-link">Register!</a>
   </form>

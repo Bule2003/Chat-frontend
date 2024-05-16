@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -15,6 +16,7 @@ import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from "@angular/rou
 import {AccountService} from "@app/_services";
 import {first} from "rxjs/operators";
 import {ErrorStateMatcher} from "@angular/material/core";
+import {NgIf} from "@angular/common";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -36,7 +38,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatLabel,
     ReactiveFormsModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    NgIf
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -69,8 +72,37 @@ export class RegisterComponent implements OnInit{
       email: ['', Validators.required],
       password: ['', Validators.required],
       password_confirmation: ['', Validators.required],
-    });
+    },
+{
+        validator: this.ConfirmedValidator('password', 'password_confirmation'),
+    }
+    )
   }
+
+  ConfirmedValidator(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+      if (
+        matchingControl.errors &&
+        !matchingControl.errors.confirmedValidator
+      ) {
+        return;
+      }
+      if (control.value !== matchingControl.value){
+        matchingControl.setErrors({confirmedValidator: true});
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
+  }
+
+  /*passwordConfirming(c: AbstractControl) : { invalid: boolean} {
+    if(c.get('password')?.value !== c.get('password_confirmation')?.value) {
+      return {invalid : true};
+    }
+    return {invalid: false};
+  }*/
 
   // convenience getter for easy access to form fields
   get f() { return this.form.controls; }

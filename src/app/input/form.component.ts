@@ -42,7 +42,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   ],
 })
 export class FormComponent implements OnInit {
- /*passwordFormControl = new FormControl('', [Validators.required, Validators.password]);*/
+  data: any;
+  isLoggedIn: boolean = false;
 
   matcher = new MyErrorStateMatcher();
 
@@ -58,6 +59,7 @@ export class FormComponent implements OnInit {
     private accountService: AccountService
   ) {
     // redirect to home if already logged in
+    /*$this.isLoggedIn = true;*/
     if (this.accountService.userValue) {
       this.router.navigate(['/']);
     }
@@ -72,6 +74,18 @@ export class FormComponent implements OnInit {
 
   // convenience getter for easy access to form fields
   get f() { return this.form.controls; }
+
+  /*checkByCredential(email: string, password: string)
+  {
+    this.accountService.checkByCredential(email, password)
+      .subscribe((users: any) => {
+        if(users)
+          this.router.navigateByUrl('/');
+        else
+          this.isLoggedIn = false;
+          return false
+      });
+  }*/
 
   onSubmit() {
     console.log(this.form.value);
@@ -89,11 +103,16 @@ export class FormComponent implements OnInit {
     this.accountService.login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: (data) => {
           // get return url from query parameters or default to home page
-          this.accountService.isLoggedIn = true;
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.router.navigateByUrl(returnUrl);
+          if (data) {
+            this.accountService.isLoggedIn = true;
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+            this.router.navigateByUrl(returnUrl);
+          } else {
+            this.form.setErrors({unauthenticated: true});
+          }
+
         },
         error: error => {
           this.error = error;
