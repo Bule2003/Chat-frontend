@@ -97,13 +97,6 @@ export class RegisterComponent implements OnInit{
     };
   }
 
-  /*passwordConfirming(c: AbstractControl) : { invalid: boolean} {
-    if(c.get('password')?.value !== c.get('password_confirmation')?.value) {
-      return {invalid : true};
-    }
-    return {invalid: false};
-  }*/
-
   // convenience getter for easy access to form fields
   get f() { return this.form.controls; }
 
@@ -125,7 +118,7 @@ export class RegisterComponent implements OnInit{
       .subscribe({
         next: () => {
           // get return url from query parameters or default to home page
-          this.accountService.isLoggedIn = true;
+          /*this.accountService.isLoggedIn = true;*/
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
           this.router.navigateByUrl(returnUrl);
         },

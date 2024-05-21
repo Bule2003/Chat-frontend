@@ -1,1 +1,18 @@
 <h1>Chat</h1>
+<div>
+  <div class="header">
+    <h3>Your chats</h3>
+    <button id="chat-btn" mat-flat-button color="primary" (click)="onClick()">Start a new chat +</button>
+  </div>
+  <div id="main-div">
+    <p *ngIf="conversations.length === 0" id="no-chats-p">No chats yet.</p>
+    <ul *ngIf="conversations.length > 0">
+      <li *ngFor="let conversation of conversations">
+        <p><b>Chat {{conversation.id}}:</b> {{conversation.title}}</p>
+        <mat-divider></mat-divider>
+      </li>
+    </ul>
+  </div>
+
+</div>
+

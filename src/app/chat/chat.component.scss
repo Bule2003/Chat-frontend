@@ -1,0 +1,38 @@
+h1, h3 {
+  padding-left: 12px;
+  padding-bottom: 20px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#main-div {
+  display: flex;
+  padding: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+#center-div {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#chat-btn {
+  margin-right: 30px;
+}
+
+#no-chats-p {
+  color: darkgray;
+}

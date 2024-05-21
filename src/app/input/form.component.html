@@ -26,9 +26,13 @@
         <mat-error>Email or password incorrect</mat-error>
       }
     </mat-form-field>
-    <!--TODO: (click)="checkByCredential(username.value,password.value)"-->
     <div class="submit-div">
-      <button class="sign-in-btn" mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
+      <button class="sign-in-btn" mat-flat-button color="primary" type="submit" [disabled]="!form.valid || loading">Submit</button>
+    </div>
+    <div id="submit-error">
+      @if ( message ) {
+        <mat-error>{{ message }}</mat-error>
+      }
     </div>
     Don't have an account? <a routerLink="/register" routerLinkActive="active" ariaCurrentWhenActive="page" id="register-link">Register!</a>
   </form>

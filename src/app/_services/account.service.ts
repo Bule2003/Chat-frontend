@@ -23,8 +23,9 @@ export class AccountService {
   constructor(private injector: Injector) {
     /*this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
     this.user = this.userSubject.asObservable();*/
-    this.tokenSubject = new BehaviorSubject<string | null>(localStorage.getItem('token'));
+    this.tokenSubject = new BehaviorSubject<string | null>(localStorage.getItem('access_token'));
     this.token = this.tokenSubject.asObservable();
+    console.log(this.tokenSubject);
     this.isLoggedIn = !!this.tokenSubject.value;
   }
 
@@ -44,7 +45,7 @@ export class AccountService {
   login(email: string | null, password: string | null) {
     return this.#http.post<AuthResponse>(`${environment.apiUrl}/login`, { email, password })
       .pipe(map(response => {
-        localStorage.setItem('token', response.authorisation.token);
+        localStorage.setItem('access_token', response.authorisation.token);
         this.tokenSubject.next(response.authorisation.token);
         this.isLoggedIn = true;
         return response;
@@ -53,28 +54,21 @@ export class AccountService {
         console.error('Error:', error);
         return throwError(error);
       }));
-
-    /*if (response.status === 401){
-      return console.log();
-    }*/
   }
 
   logout() {
-    // remove user from local storage and set current user to null
-    localStorage.removeItem('token');
+    // remove token from local storage and set current token to null
+    localStorage.removeItem('access_token');
     this.tokenSubject.next(null);
     this.isLoggedIn = false;
     this.#router.navigate(['/login']);
-    /*localStorage.removeItem('user');
-    this.tokenSubject.next(null);
-    this.#router.navigate(['/login']);*/
-
   }
 
   register(first_name: string | null, last_name: string | null, username: string | null ,    email: string | null, password: string | null, password_confirmation: string | null) {
     return this.#http.post<AuthResponse>(`${environment.apiUrl}/register`, {first_name, last_name, username, email, password, password_confirmation})
       .pipe(map(response => {
-        localStorage.setItem('token', response.authorisation.token);
+        this.isLoggedIn = true;
+        localStorage.setItem('access_token', response.authorisation.token);
         this.tokenSubject.next(response.authorisation.token);
         return response;
       }),
@@ -84,16 +78,4 @@ export class AccountService {
       })
     );
   }
-
-  /*getToken() : string | null {
-    return this.tokenSubject.value;
-  }*/
-
-  /*checkByCredential(email: string, password: string) {
-    const user = { email: email, password: password };
-    return this.#http.post('http://localhost:8080/checkByCredential', user)
-      .pipe(
-        map((result: any) => result.json())
-      );
-  }*/
 }

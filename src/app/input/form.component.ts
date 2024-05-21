@@ -43,7 +43,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class FormComponent implements OnInit {
   data: any;
-  isLoggedIn: boolean = false;
+  message: any = '';
+  /*isLoggedIn: boolean = false;*/
 
   matcher = new MyErrorStateMatcher();
 
@@ -75,18 +76,6 @@ export class FormComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.form.controls; }
 
-  /*checkByCredential(email: string, password: string)
-  {
-    this.accountService.checkByCredential(email, password)
-      .subscribe((users: any) => {
-        if(users)
-          this.router.navigateByUrl('/');
-        else
-          this.isLoggedIn = false;
-          return false
-      });
-  }*/
-
   onSubmit() {
     console.log(this.form.value);
     this.submitted = true;
@@ -106,7 +95,7 @@ export class FormComponent implements OnInit {
         next: (data) => {
           // get return url from query parameters or default to home page
           if (data) {
-            this.accountService.isLoggedIn = true;
+            /*this.accountService.isLoggedIn = true;*/
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
             this.router.navigateByUrl(returnUrl);
           } else {
@@ -115,6 +104,7 @@ export class FormComponent implements OnInit {
 
         },
         error: error => {
+          this.message = error.error.message;
           this.error = error;
           this.loading = false;
         }
