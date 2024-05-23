@@ -21,19 +21,17 @@ export class AccountService {
 
 
   constructor(private injector: Injector) {
-    /*this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
-    this.user = this.userSubject.asObservable();*/
+    this.userSubject = new BehaviorSubject<User | null>(JSON.parse(localStorage.getItem('user')!));
+    this.user = this.userSubject.asObservable();
     this.tokenSubject = new BehaviorSubject<string | null>(localStorage.getItem('access_token'));
     this.token = this.tokenSubject.asObservable();
-    console.log(this.tokenSubject);
     this.isLoggedIn = !!this.tokenSubject.value;
   }
 
   public get userValue() {
+    console.log(this.userSubject.value);
     return this.userSubject.value;
   }
-
-
 
   public get tokenValue() {
     return this.tokenSubject.value;
@@ -46,7 +44,9 @@ export class AccountService {
     return this.#http.post<AuthResponse>(`${environment.apiUrl}/login`, { email, password })
       .pipe(map(response => {
         localStorage.setItem('access_token', response.authorisation.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
         this.tokenSubject.next(response.authorisation.token);
+        this.userSubject.next(response.user);
         this.isLoggedIn = true;
         return response;
       }),
@@ -59,6 +59,7 @@ export class AccountService {
   logout() {
     // remove token from local storage and set current token to null
     localStorage.removeItem('access_token');
+    localStorage.removeItem('user');
     this.tokenSubject.next(null);
     this.isLoggedIn = false;
     this.#router.navigate(['/login']);
@@ -69,7 +70,9 @@ export class AccountService {
       .pipe(map(response => {
         this.isLoggedIn = true;
         localStorage.setItem('access_token', response.authorisation.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
         this.tokenSubject.next(response.authorisation.token);
+        this.userSubject.next(response.user);
         return response;
       }),
       catchError(error => {

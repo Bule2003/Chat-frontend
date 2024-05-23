@@ -3,10 +3,26 @@ h1, h3 {
   padding-bottom: 20px;
 }
 
+.chat-container {
+  height: 400px;
+  overflow-y: scroll;
+  border: 1px solid #ccc; // might remove
+  padding: 10px;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.no-more {
+  text-align: center;
+  margin-top: 20px;
+}
+
 ul {
   list-style-type: none;
 }
-
 
 .header {
   display: flex;
@@ -35,4 +51,14 @@ ul {
 
 #no-chats-p {
   color: darkgray;
+}
+
+.message-input {
+  margin-left: 20px;
+  width: 250px;
+}
+
+.send-btn {
+
+
 }

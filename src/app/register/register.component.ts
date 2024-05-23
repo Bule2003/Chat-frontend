@@ -16,7 +16,7 @@ import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from "@angular/rou
 import {AccountService} from "@app/_services";
 import {first} from "rxjs/operators";
 import {ErrorStateMatcher} from "@angular/material/core";
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -39,7 +39,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     ReactiveFormsModule,
     RouterLink,
     RouterLinkActive,
-    NgIf
+    NgIf,
+    NgClass
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -69,8 +70,14 @@ export class RegisterComponent implements OnInit{
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       username: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: new FormControl('',[
+        Validators.required,
+        Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+      /*password: ['', Validators.required],*/
+      password: new FormControl<string>('', {
+        /*validators: [Validators.required, Validators.pattern('/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\\D*\\d).{8,}$/')],*/
+        validators: [Validators.required, Validators.minLength(8)],
+      }),
       password_confirmation: ['', Validators.required],
     },
 {

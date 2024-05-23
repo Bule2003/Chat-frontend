@@ -1,18 +1,45 @@
 <h1>Chat</h1>
-<div>
+<div class="chat-container" (scroll)="onScroll()" #scrollableDiv>
   <div class="header">
     <h3>Your chats</h3>
     <button id="chat-btn" mat-flat-button color="primary" (click)="onClick()">Start a new chat +</button>
   </div>
   <div id="main-div">
-    <p *ngIf="conversations.length === 0" id="no-chats-p">No chats yet.</p>
+    <p *ngIf="conversations.length === 0 && !loading" id="no-chats-p">Don't see your chat? Try refreshing the page or contact the support.</p>
     <ul *ngIf="conversations.length > 0">
-      <li *ngFor="let conversation of conversations">
-        <p><b>Chat {{conversation.id}}:</b> {{conversation.title}}</p>
+      <li *ngFor="let conversation of conversations" (click)="selectConversation(conversation)">
+        <p><b>Chat {{conversation.id}} with {{recipient_username}}:</b> {{conversation.title}}</p>
         <mat-divider></mat-divider>
       </li>
     </ul>
+      <div *ngIf="loading" class="loading">
+        Loading...
+      </div>
   </div>
-
+  <!--<div *ngIf="!hasMoreConversations && !loading" class="no-more">
+    No more chats
+  </div>-->
+  <div class="messages-container" *ngIf="selectedConversation">
+    <h3>Messages in chat {{selectedConversation.id}}</h3>
+    <div *ngIf="selectedConversation.messages.length === 0">No messages in this chat</div>
+    <ul *ngIf="selectedConversation.messages.length > 0">
+      <li *ngFor="let message of selectedConversation.messages">
+        <p><b>{{message.sender_username}}:</b> {{message.content}}</p>
+        <mat-divider></mat-divider>
+      </li>
+    </ul>
+    <div>
+      <form class="header" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+        <mat-form-field class="message-input">
+          <mat-label>Send a message to {{recipient_username}}:</mat-label>
+          <input type="text" matInput formControlName="content" placeholder="message">
+          @if (messageForm.controls['content'].hasError('required')) {
+            <mat-error>Enter a message first!</mat-error>
+          }
+        </mat-form-field>
+        <button type="submit" class="send-btn" mat-flat-button color="primary" [disabled]="!messageForm.valid">Send</button>
+      </form>
+    </div>
+  </div>
 </div>
 

@@ -68,8 +68,13 @@ export class FormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
+      email: new FormControl('',[
+        Validators.required,
+        Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+      password: new FormControl<string>('', {
+        /*validators: [Validators.required, Validators.pattern('/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\\D*\\d).{8,}$/')],*/
+        validators: [Validators.required, Validators.minLength(8)],
+      }),
     });
   }
 

@@ -32,10 +32,10 @@
       <mat-form-field class="example-full-width">
         <mat-label>Email</mat-label>
         <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
-               placeholder="Ex. pat@example.com"
+               placeholder="Ex. example@mail.com"
         >
         <mat-hint>Please enter your email address.</mat-hint>
-        @if (form.controls['email'].hasError('email') && !form.controls['email'].hasError('required')) {
+        @if (!form.controls['email'].hasError('required')) {
           <mat-error>Please enter a valid email address</mat-error>
         }
         @if (form.controls['email'].hasError('required')) {
@@ -50,6 +50,24 @@
         @if (form.controls['password'].hasError('required')) {
           <mat-error>Password is <strong>required</strong></mat-error>
         }
+        @if (form.controls['password'].hasError('minlength')) {
+          <mat-error>The password field must be at least 8 characters.</mat-error>
+        }
+        <!--@if (form.controls['password'].hasError('required')) {
+           <mat-error>Password is <strong>required</strong></mat-error>
+        }
+        @if (form.controls['password'].touched && !form.controls['password'].errors?.['minlength']) {
+          <mat-error>The password field must be at least 8 characters.</mat-error>
+        }
+        @if (form.controls['password'].touched && !form.controls['password'].errors?.['containsUpperLetter'] && form.controls['password'].errors?.['minlength']) {
+          <mat-error>Password must contain at least one uppercase letter!</mat-error>
+        }
+        @if (form.controls['password'].touched && !form.controls['password'].errors?.['containsNumber'] && form.controls['password'].errors?.['containsUpperLetter']) {
+          <mat-error>Password must contain at least one number!</mat-error>
+        }
+        @if (form.controls['password'].touched && !form.controls['password'].errors?.['containsSpecialCharacter'] && form.controls['password'].errors?.['containsNumber']) {
+          <mat-error>Password must contain at least one special character!</mat-error>
+        }-->
       </mat-form-field>
       <mat-form-field class="example-full-width">
         <mat-label>Confirm Password</mat-label>
@@ -67,5 +85,4 @@
       Already have an account? <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page" id="sign-in-link">Sign in!</a>
     </form>
   </div>
-
 </div>

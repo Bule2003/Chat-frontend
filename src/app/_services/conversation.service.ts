@@ -7,14 +7,13 @@ import {environment} from "@environments/environment";
   providedIn: 'root'
 })
 export class ConversationService {
-
   private apiUrl = `${environment.apiUrl}/conversations`;
 
   constructor() { }
 
   #http = inject(HttpClient);
 
-  getConversations(): Observable<any> {
-    return this.#http.get<any>(this.apiUrl);
+  getConversations(page: number = 1): Observable<any> {
+    return this.#http.get<any>(`${this.apiUrl}?page=${page}`);
   }
 }
