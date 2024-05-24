@@ -5,10 +5,14 @@
     <button id="chat-btn" mat-flat-button color="primary" (click)="onClick()">Start a new chat +</button>
   </div>
   <div id="main-div">
-    <p *ngIf="conversations.length === 0 && !loading" id="no-chats-p">Don't see your chat? Try refreshing the page or contact the support.</p>
+    <p *ngIf="conversations.length === 0 && !loading" class="no-content">Don't see your chat? Try refreshing the page or contact the support.</p>
     <ul *ngIf="conversations.length > 0">
       <li *ngFor="let conversation of conversations" (click)="selectConversation(conversation)">
-        <p><b>Chat {{conversation.id}} with {{recipient_username}}:</b> {{conversation.title}}</p>
+        @if (this.user.username !== conversation.users[1].username) {
+          <p><b>Chat {{ conversation.id }} with {{ conversation.users[1].username }}:</b> {{ conversation.title }}</p>
+        } @else {
+          <p><b>Chat {{ conversation.id }} with {{ conversation.users[0].username }}:</b> {{ conversation.title }}</p>
+        }
         <mat-divider></mat-divider>
       </li>
     </ul>
@@ -20,8 +24,8 @@
     No more chats
   </div>-->
   <div class="messages-container" *ngIf="selectedConversation">
-    <h3>Messages in chat {{selectedConversation.id}}</h3>
-    <div *ngIf="selectedConversation.messages.length === 0">No messages in this chat</div>
+    <h3>{{ selectedConversation.title }}</h3>
+    <p *ngIf="selectedConversation.messages.length === 0" class="no-content">No messages yet.</p>
     <ul *ngIf="selectedConversation.messages.length > 0">
       <li *ngFor="let message of selectedConversation.messages">
         <p><b>{{message.sender_username}}:</b> {{message.content}}</p>
@@ -30,8 +34,8 @@
     </ul>
     <div>
       <form class="header" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
-        <mat-form-field class="message-input">
-          <mat-label>Send a message to {{recipient_username}}:</mat-label>
+        <mat-form-field class="input">
+          <mat-label>Send a message:</mat-label>
           <input type="text" matInput formControlName="content" placeholder="message">
           @if (messageForm.controls['content'].hasError('required')) {
             <mat-error>Enter a message first!</mat-error>
@@ -43,3 +47,45 @@
   </div>
 </div>
 
+<!--Popup-->
+<div *ngIf="showPopup" class="popup-overlay">
+  <div class="popup">
+    <mat-card>
+      <mat-card-content>
+        <div id="close-div">
+          <button class="close-btn" mat-icon-button (click)="closePopup()">
+            <!--Close-->
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <form [formGroup]="conversationForm" (ngSubmit)="startConversation()">
+          <mat-form-field class="input">
+            <mat-label>Chat Title</mat-label>
+            <input type="text" matInput formControlName="title" placeholder="Title">
+            @if (conversationForm.controls['title'].hasError('required')) {
+              <mat-error>Title field is required</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field class="input">
+            <mat-label>Who do you want to chat with?</mat-label>
+            <input type="text" matInput formControlName="recipient_user" placeholder="Start a conversation with:">
+            @if (conversationForm.controls['recipient_user'].hasError('required')) {
+              <mat-error>Recipient username field is required</mat-error>
+            }
+
+            <!--@if (this.errorMessage$) {
+              {{ this.errorMessage$?.source }}
+            }-->
+
+            <!--@if (this.errorMessage$) {
+              <mat-error>{{ this.errorMessage$?.source?.value }}</mat-error>
+            }-->
+
+            <!--TODO: add error message when user doesn't exist-->
+          </mat-form-field>
+          <button type="submit" class="send-btn" mat-flat-button color="primary" [disabled]="!conversationForm.valid">Create</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

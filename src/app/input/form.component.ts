@@ -98,9 +98,7 @@ export class FormComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: (data) => {
-          // get return url from query parameters or default to home page
           if (data) {
-            /*this.accountService.isLoggedIn = true;*/
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
             this.router.navigateByUrl(returnUrl);
           } else {

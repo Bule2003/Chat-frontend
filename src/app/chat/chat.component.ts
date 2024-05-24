@@ -12,6 +12,9 @@ import {MatError, MatFormField, MatHint, MatLabel} from "@angular/material/form-
 import {MatInput} from "@angular/material/input";
 import {first} from "rxjs/operators";
 import {AccountService} from "@app/_services";
+import {MatCard, MatCardContent} from "@angular/material/card";
+import {BehaviorSubject} from "rxjs";
+import {MatIcon} from "@angular/material/icon";
 
 
 @Component({
@@ -30,7 +33,10 @@ import {AccountService} from "@app/_services";
     ReactiveFormsModule,
     MatError,
     MatHint,
-    MatInput
+    MatInput,
+    MatCard,
+    MatCardContent,
+    MatIcon
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
@@ -47,27 +53,35 @@ export class ChatComponent implements OnInit{
   hasMoreConversations = true;
   selectedConversation: any;
   error?: string;
-
-  // TODO: fix sender and recipient username issue
-
   messageForm!: FormGroup;
+  conversationForm!: FormGroup;
+  message: string = '';
+  user: any;
+  showPopup = false;
 
   @ViewChild('scrollableDiv', { static: false}) scrollableDiv: ElementRef | undefined;
 
-  constructor(private formBuilder: FormBuilder) {
-  }
+  private errorMessageSubject = new BehaviorSubject<string | null>(null);
+  errorMessage$ = this.errorMessageSubject.asObservable();
 
-  #route = inject(ActivatedRoute);
-  #router = inject(Router);
+  constructor(private formBuilder: FormBuilder) {
+    this.user = this.#accountService.userValue;
+  }
 
 
   ngOnInit() {
     this.messageForm = this.formBuilder.group({
       content: ['', Validators.required]
     })
+    this.conversationForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      recipient_user: ['', Validators.required]
+    })
     this.loadConversations();
   }
 
+  #route = inject(ActivatedRoute);
+  #router = inject(Router);
   #accountService = inject(AccountService);
   #conversationService = inject(ConversationService);
   #messageService = inject(MessageService);
@@ -82,8 +96,6 @@ export class ChatComponent implements OnInit{
     this.#conversationService.getConversations(this.currentPage).subscribe(
       (data) => {
         this.conversations = [...this.conversations, ...data.data];
-        this.sender_username = data.data[0].messages[0].sender_username;
-        this.recipient_username = data.data[0].messages[0].recipient_username;
         this.hasMoreConversations = data.next_page_url != null;
         this.loading = false;
         this.currentPage++;
@@ -105,8 +117,35 @@ export class ChatComponent implements OnInit{
   }
 
   onClick () {
-    // TODO: open up search where the user can find another user he wants to chat to
-    console.log('Clicked');
+    this.showPopup = true;
+  }
+
+  closePopup () {
+    this.showPopup = false;
+  }
+
+  get cf() { return this.conversationForm.controls; }
+
+  startConversation() {
+    this.#conversationService.create(this.cf.title.value, this.cf.recipient_user.value)
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.message='';
+          this.errorMessageSubject.next(null);
+          this.closePopup();
+          /*window.location.reload();*/
+        },
+        error: error => {
+          this.message = error.error.message;
+          this.errorMessageSubject.next(this.message);
+          /*this.error = error;*/
+          // @ts-ignore
+          console.log(this.errorMessage$?.source?.value);
+          /*console.log('Error', error.error.message);*/
+        }
+      })
   }
 
   selectConversation(conversation: any): void {
@@ -121,18 +160,11 @@ export class ChatComponent implements OnInit{
       this.error = 'User not logged in';
       return;
     }
+
     const sender_username = loggedInUser.username;
+    const recipient_username = (sender_username ===  this.selectedConversation.users[0].username) ? this.selectedConversation.users[1].username : this.selectedConversation.users[0].username;
 
-    let recipient_username = '';
-    const lastMessage = this.selectedConversation.messages[this.selectedConversation.messages.length - 1];
-    if (this.selectedConversation && this.selectedConversation.messages.length > 0) {
-      console.log(lastMessage);
-      recipient_username = lastMessage.sender_username === sender_username
-        ? lastMessage.recipient_username
-        : lastMessage.sender_username;
-    }
-
-    console.log('The id of the conversation: ', lastMessage.conversation_id);
+    console.log('The id of the conversation: ', this.selectedConversation.id);
     console.log('The sender of the message is: ', sender_username);
     console.log('The recipient of the message is: ', recipient_username);
     console.log('The content of the message is: ', this.f.content.value);
@@ -141,14 +173,15 @@ export class ChatComponent implements OnInit{
       return;
     }
 
-
-    this.#messageService.SendMessage(lastMessage.conversation_id, sender_username, recipient_username, this.f.content.value)
+    this.#messageService.SendMessage(this.selectedConversation.id, sender_username, recipient_username, this.f.content.value)
       .pipe(first())
       .subscribe({
-        next: (message) => {
+        next: () => {
           window.location.reload();
         },
         error: error => {
+          this.message = error.error.message;
+          console.error('The error is:', this.message);
           this.error = error;
         }
       })

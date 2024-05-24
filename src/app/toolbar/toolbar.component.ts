@@ -8,6 +8,8 @@ import {AccountService} from "@app/_services";
 import {CommonModule} from "@angular/common";
 import {first} from "rxjs/operators";
 
+// TODO: fix logout issue
+
 @Component({
   selector: 'app-toolbar',
   standalone: true,
