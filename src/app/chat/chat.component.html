@@ -43,7 +43,8 @@
         </mat-form-field>
         <button type="submit" class="send-btn" mat-flat-button color="primary" [disabled]="!messageForm.valid">Send</button>
       </form>
-      <button (click)="deleteConversation(selectedConversation.id)" class="send-btn" mat-flat-button color="warn">Delete conversation</button>
+      <!--<button (click)="deleteConversation(selectedConversation.id)" class="delete-conversation-btn" mat-flat-button color="warn">Delete conversation</button>-->
+      <button (click)="openDialog()" class="delete-conversation-btn" mat-flat-button color="warn">Delete conversation</button>
     </div>
   </div>
 </div>

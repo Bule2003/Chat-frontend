@@ -2,7 +2,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ChatComponent} from "./chat/chat.component";
 import {HomeComponent} from "./home/home.component";
 import {FeaturesComponent} from "./features/features.component";
-import {AboutUsComponent} from "./about-us/about-us.component";
+import {AboutUsComponent} from "@app/chat/about-us/about-us.component";
 import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "@app/register/register.component";
 

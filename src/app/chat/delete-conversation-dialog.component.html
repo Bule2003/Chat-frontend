@@ -1,0 +1,9 @@
+<mat-dialog-content>
+  <p>Are you sure you want to delete this conversation?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="button-div">
+    <button mat-flat-button color="warn" class="delete-conversation-btn" (click)="deleteConversation(data.selectedConversation.id)">Delete</button>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+  </div>
+</mat-dialog-actions>

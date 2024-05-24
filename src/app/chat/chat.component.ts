@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, inject, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MessageService} from "@app/_services/message.service";
 import {MatButtonModule} from "@angular/material/button";
@@ -6,16 +6,27 @@ import {ConversationService} from "@app/_services/conversation.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatListModule} from "@angular/material/list";
 import {MatDividerModule} from "@angular/material/divider";
-/*import {MatFormField, MatInput, MatLabel} from "@angular/material/input";*/
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatError, MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
+import {MatError, MatFormField, MatFormFieldModule, MatHint, MatLabel} from "@angular/material/form-field";
+import {MatInput, MatInputModule} from "@angular/material/input";
 import {first} from "rxjs/operators";
 import {AccountService} from "@app/_services";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {BehaviorSubject} from "rxjs";
 import {MatIcon} from "@angular/material/icon";
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
 
+export interface DialogData {
+  selectedConversation: any;
+}
 
 @Component({
   selector: 'app-chat',
@@ -64,7 +75,7 @@ export class ChatComponent implements OnInit{
   private errorMessageSubject = new BehaviorSubject<string | null>(null);
   errorMessage$ = this.errorMessageSubject.asObservable();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, public dialog: MatDialog) {
     this.user = this.#accountService.userValue;
   }
 
@@ -107,6 +118,16 @@ export class ChatComponent implements OnInit{
         console.error('Error fetching conversations', error);
       }
     )
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DeleteConversationDialog, {
+      data: {selectedConversation: this.selectedConversation},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    })
   }
 
   onScroll(): void {
@@ -154,20 +175,6 @@ export class ChatComponent implements OnInit{
     this.selectedConversation = conversation;
   }
 
-  deleteConversation(id: number) {
-    this.#conversationService.delete(id)
-      .pipe(first())
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-          window.location.reload();
-        },
-        error: (error) => {
-          console.error(error);
-        }
-      })
-  }
-
   get f() { return this.messageForm.controls; }
 
   sendMessage() {
@@ -202,17 +209,47 @@ export class ChatComponent implements OnInit{
         }
       })
   }
+}
 
-  /*loadMessages(conversationId: number): void{
-    this.loadingMessages = true;
-    this.selectedConversation = this.conversations.find(c => c.id === conversationId);
+@Component({
+  selector: 'delete-conversation-dialog',
+  templateUrl: './delete-conversation-dialog.component.html',
+  styleUrl: './delete-conversation-dialog.component.scss',
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+  ],
+})
+export class DeleteConversationDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteConversationDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) {}
 
-    this.#messageService.getMessages(conversationId).subscribe(data => {
-      this.messages = data;
-      this.loadingMessages = false;
-    }, (error: any) => {
-      console.error('Error loading messages:', error);
-      this.loadingMessages = false;
-    });
-  }*/
+  #conversationService = inject(ConversationService);
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  deleteConversation(id: number) {
+    this.#conversationService.delete(id)
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          window.location.reload();
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      })
+  }
 }
