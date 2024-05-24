@@ -86,6 +86,8 @@ export class ChatComponent implements OnInit{
   #conversationService = inject(ConversationService);
   #messageService = inject(MessageService);
 
+  // TODO: move more request logic to services
+
   loadConversations() {
     if(this.loading || !this.hasMoreConversations) {
       return;
@@ -150,6 +152,20 @@ export class ChatComponent implements OnInit{
 
   selectConversation(conversation: any): void {
     this.selectedConversation = conversation;
+  }
+
+  deleteConversation(id: number) {
+    this.#conversationService.delete(id)
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          window.location.reload();
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      })
   }
 
   get f() { return this.messageForm.controls; }

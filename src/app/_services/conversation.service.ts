@@ -22,8 +22,10 @@ export class ConversationService {
   }
 
   delete(id: number) {
-    return  this.#http.delete(`${this.apiUrl}`);
-    // TODO: add response message
+    return  this.#http.delete(`${this.apiUrl}/${id}`)
+      .pipe(map(response => {
+        return response;
+    }))
   }
 
   getConversations(page: number = 1): Observable<any> {

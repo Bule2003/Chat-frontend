@@ -6,7 +6,7 @@
   </div>
   <div id="main-div">
     <p *ngIf="conversations.length === 0 && !loading" class="no-content">Don't see your chat? Try refreshing the page or contact the support.</p>
-    <ul *ngIf="conversations.length > 0">
+    <ul id="conversations" *ngIf="conversations.length > 0">
       <li *ngFor="let conversation of conversations" (click)="selectConversation(conversation)">
         @if (this.user.username !== conversation.users[1].username) {
           <p><b>Chat {{ conversation.id }} with {{ conversation.users[1].username }}:</b> {{ conversation.title }}</p>
@@ -43,6 +43,7 @@
         </mat-form-field>
         <button type="submit" class="send-btn" mat-flat-button color="primary" [disabled]="!messageForm.valid">Send</button>
       </form>
+      <button (click)="deleteConversation(selectedConversation.id)" class="send-btn" mat-flat-button color="warn">Delete conversation</button>
     </div>
   </div>
 </div>
