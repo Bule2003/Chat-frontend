@@ -25,6 +25,7 @@ import {
 } from '@angular/material/dialog';
 import {DeleteConversationDialog} from "@app/delete-conversation-dialog/delete-conversation-dialog.component";
 import {UpdateConversationDialog} from "@app/update-conversation-dialog/update-conversation-dialog.component";
+import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 
 export interface DialogData {
   selectedConversation: any;
@@ -49,7 +50,8 @@ export interface DialogData {
     MatInput,
     MatCard,
     MatCardContent,
-    MatIcon
+    MatIcon,
+    NgxSkeletonLoaderModule
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'

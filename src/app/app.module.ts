@@ -7,6 +7,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule, HttpClient, HTTP_INTERCEPTORS} from "@angular/common/http";
 import {ROUTES} from "@app/app.routes";
 import {JwtInterceptor} from "@app/jwt.interceptor";
+import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {JwtInterceptor} from "@app/jwt.interceptor";
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    RouterLink
+    RouterLink,
+    NgxSkeletonLoaderModule
   ],
   providers: [
     /*{

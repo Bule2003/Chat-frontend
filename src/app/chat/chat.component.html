@@ -6,7 +6,7 @@
   </div>
   <div id="main-div">
     <p *ngIf="conversations.length === 0 && !loading" class="no-content">Don't see your chat? Try refreshing the page or contact the support.</p>
-    <ul id="conversations" *ngIf="conversations.length > 0">
+    <ul class="conversations" *ngIf="conversations.length > 0">
       <li *ngFor="let conversation of conversations" (click)="selectConversation(conversation)">
         @if (this.user.username !== conversation.users[1].username) {
           <p><b>Chat {{ conversation.id }} with {{ conversation.users[1].username }}:</b> {{ conversation.title }}</p>
@@ -16,9 +16,12 @@
         <mat-divider></mat-divider>
       </li>
     </ul>
-      <div *ngIf="loading" class="loading">
-        Loading...
-      </div>
+    <div *ngIf="loading" class="conversation-skeleton">
+        <ngx-skeleton-loader count=20 appearance="line"/>
+    </div>
+    <!--<div *ngIf="loading" class="loading">
+      Loading...
+    </div>-->
   </div>
   <!--<div *ngIf="!hasMoreConversations && !loading" class="no-more">
     No more chats
