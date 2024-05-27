@@ -1,0 +1,22 @@
+<mat-dialog-content>
+  <p>Update this conversation?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <form [formGroup]="updateForm" (ngSubmit)="updateConversation(this.data.selectedConversation.id)">
+    <div class="input">
+      <mat-form-field class="example-full-width">
+        <mat-label>New Title</mat-label>
+        <input type="text" formControlName="title" matInput
+               placeholder="Title">
+        <mat-hint></mat-hint>
+        <!--@if (form.controls['password_confirmation'].hasError('required')) {
+          <mat-error>First name field is <strong>required</strong></mat-error>
+        }-->
+      </mat-form-field>
+      <div class="button-div">
+        <button mat-flat-button color="primary" class="delete-conversation-btn" type="submit" [disabled]="!updateForm.valid">Update</button>
+        <button mat-button (click)="onNoClick()">No Thanks</button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-actions>

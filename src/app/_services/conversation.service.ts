@@ -21,6 +21,13 @@ export class ConversationService {
       }));
   }
 
+  update(id: number, title: string) {
+    return this.#http.put(`${this.apiUrl}/${id}`, { title })
+      .pipe(map(response => {
+        return response;
+      }))
+  }
+
   delete(id: number) {
     return  this.#http.delete(`${this.apiUrl}/${id}`)
       .pipe(map(response => {

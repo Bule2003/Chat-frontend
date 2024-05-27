@@ -4,10 +4,18 @@ h1, h3 {
 }
 
 .chat-container {
-  height: 400px;
-  overflow-y: scroll;
-  border: 1px solid #ccc; // might remove
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.messages-container {
+  width: 100%;
+  padding: 20px;
+  background-color: #f5f5f5;
+  overflow-y: auto;
+  flex: 1;
 }
 
 .loading {
@@ -32,6 +40,7 @@ ul {
 
 #main-div {
   display: flex;
+  flex-direction: column;
   padding: 12px;
   justify-content: center;
   align-items: center;
@@ -61,11 +70,15 @@ ul {
 
 .input {
   margin: 12px;
-  width: 265px;
+  width: 85%;
+}
+
+#send-message-input {
+  width: 85%;
 }
 
 .send-btn {
-  margin: 20px;
+  margin-right: 30px;
 }
 
 .popup-overlay {
@@ -98,7 +111,8 @@ ul {
 }
 
 #close-div {
-  padding: 10px;
+  padding-left: 10px;
+  padding-bottom: 50px;
 }
 
 @keyframes fadeIn {
@@ -119,6 +133,20 @@ ul {
   }
 }
 
-.delete-conversation-btn {
-  margin: 20px;
+#update-conversation-btn {
+  margin-left: 20px;
+}
+
+#delete-conversation-btn {
+  margin: 14px;
+}
+
+.message-format {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message-format span {
+  margin-right: 12px;
 }

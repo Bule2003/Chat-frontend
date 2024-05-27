@@ -30,8 +30,25 @@ export class MessageService {
       }));
   }
 
-  getMessages(conversationId: number): Observable<any> {
-    return this.#http.get<any>(`${this.apiUrl}/${conversationId}`);
+  update(id: number, content: string) {
+    return this.#http.put(`${this.apiUrl}/${id}`, { content })
+      .pipe(map(response => {
+        return response;
+    }))
   }
-  // TODO: loading messages
+
+  delete(id: number) {
+    return  this.#http.delete(`${this.apiUrl}/${id}`)
+      .pipe(map(response => {
+        return response;
+      }))
+  }
+
+  getMessages(conversationId: number, page: number): Observable<any> {
+    return this.#http.get<Message[]>(`${this.apiUrl}/${conversationId}`);
+  }
+
+  loadMoreMessages() {
+    return this.#http.get<Message[]>(`${this.apiUrl}`)
+  }
 }

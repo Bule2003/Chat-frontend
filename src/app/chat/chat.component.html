@@ -28,7 +28,9 @@
     <p *ngIf="selectedConversation.messages.length === 0" class="no-content">No messages yet.</p>
     <ul *ngIf="selectedConversation.messages.length > 0">
       <li *ngFor="let message of selectedConversation.messages">
-        <p><b>{{message.sender_username}}:</b> {{message.content}}</p>
+        <div class="message-format">
+          <p><b>{{message.sender_username}}:</b> {{message.content}}</p><span>{{message.sent_at}}</span>
+        </div>
         <mat-divider></mat-divider>
       </li>
     </ul>
@@ -36,7 +38,7 @@
       <form class="header" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
         <mat-form-field class="input">
           <mat-label>Send a message:</mat-label>
-          <input type="text" matInput formControlName="content" placeholder="message">
+          <input id="send-message-input" type="text" matInput formControlName="content" placeholder="message">
           @if (messageForm.controls['content'].hasError('required')) {
             <mat-error>Enter a message first!</mat-error>
           }
@@ -44,16 +46,17 @@
         <button type="submit" class="send-btn" mat-flat-button color="primary" [disabled]="!messageForm.valid">Send</button>
       </form>
       <!--<button (click)="deleteConversation(selectedConversation.id)" class="delete-conversation-btn" mat-flat-button color="warn">Delete conversation</button>-->
-      <button (click)="openDialog()" class="delete-conversation-btn" mat-flat-button color="warn">Delete conversation</button>
+      <button (click)="openUpdateDialog()" id="update-conversation-btn" mat-flat-button color="primary">Update conversation</button>
+      <button (click)="openDeleteDialog()" id="delete-conversation-btn" mat-flat-button color="warn">Delete conversation</button>
     </div>
   </div>
 </div>
 
 <!--Popup-->
+
+<!--Add some kind of header-->
 <div *ngIf="showPopup" class="popup-overlay">
   <div class="popup">
-    <mat-card>
-      <mat-card-content>
         <div id="close-div">
           <button class="close-btn" mat-icon-button (click)="closePopup()">
             <!--Close-->
@@ -87,7 +90,5 @@
           </mat-form-field>
           <button type="submit" class="send-btn" mat-flat-button color="primary" [disabled]="!conversationForm.valid">Create</button>
         </form>
-      </mat-card-content>
-    </mat-card>
   </div>
 </div>

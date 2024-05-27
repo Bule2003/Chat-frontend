@@ -23,6 +23,8 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from '@angular/material/dialog';
+import {DeleteConversationDialog} from "@app/delete-conversation-dialog/delete-conversation-dialog.component";
+import {UpdateConversationDialog} from "@app/update-conversation-dialog/update-conversation-dialog.component";
 
 export interface DialogData {
   selectedConversation: any;
@@ -70,7 +72,7 @@ export class ChatComponent implements OnInit{
   user: any;
   showPopup = false;
 
-  @ViewChild('scrollableDiv', { static: false}) scrollableDiv: ElementRef | undefined;
+  @ViewChild('scrollableDiv', { static: false}) scrollableDiv?: ElementRef;
 
   private errorMessageSubject = new BehaviorSubject<string | null>(null);
   errorMessage$ = this.errorMessageSubject.asObservable();
@@ -120,7 +122,17 @@ export class ChatComponent implements OnInit{
     )
   }
 
-  openDialog(): void {
+  openUpdateDialog(): void {
+    const dialogRef = this.dialog.open(UpdateConversationDialog, {
+      data: {selectedConversation: this.selectedConversation},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    })
+  }
+
+  openDeleteDialog(): void {
     const dialogRef = this.dialog.open(DeleteConversationDialog, {
       data: {selectedConversation: this.selectedConversation},
     });
@@ -137,9 +149,40 @@ export class ChatComponent implements OnInit{
       console.log('Reached bottom of the container');
       this.loadConversations();
     }
+    /*const threshold: number = 150;
+    const position = this.scrollableDiv?.nativeElement.scrollTop + this.scrollableDiv?.nativeElement.clientHeight;
+    const height = this.scrollableDiv?.nativeElement.scrollHeight;
+
+    if (height - position < threshold) {
+      if (this.selectedConversation) {
+        this.loadMoreMessages();
+      } else {
+        this.loadMoreConversations();
+      }
+    }*/
   }
 
-  onClick () {
+  /*loadMoreConversations() {
+    if (this.loading) return;
+    this.loading = true;
+
+    this.#conversationService.loadMoreConversations.subscribe(newConversations => {
+      this.conversations.push(...newConversations);
+      this.loading = false;
+    })
+  }
+
+  loadMoreMessages() {
+    if (this.loadingMessages) return;
+    this.loadingMessages = true;
+
+    this.#messageService.loadMoreMessages(this.selectedConversation.id).subscribe(newMessages => {
+      this.selectedConversation.messages.push(...newMessages);
+      this.loadingMessages = false;
+    })
+  }*/
+
+  onClick() {
     this.showPopup = true;
   }
 
@@ -163,10 +206,8 @@ export class ChatComponent implements OnInit{
         error: error => {
           this.message = error.error.message;
           this.errorMessageSubject.next(this.message);
-          /*this.error = error;*/
           // @ts-ignore
-          console.log(this.errorMessage$?.source?.value);
-          /*console.log('Error', error.error.message);*/
+          /*console.log(this.errorMessage$?.source?.value);*/
         }
       })
   }
@@ -187,11 +228,6 @@ export class ChatComponent implements OnInit{
     const sender_username = loggedInUser.username;
     const recipient_username = (sender_username ===  this.selectedConversation.users[0].username) ? this.selectedConversation.users[1].username : this.selectedConversation.users[0].username;
 
-    console.log('The id of the conversation: ', this.selectedConversation.id);
-    console.log('The sender of the message is: ', sender_username);
-    console.log('The recipient of the message is: ', recipient_username);
-    console.log('The content of the message is: ', this.f.content.value);
-
     if (this.messageForm.invalid) {
       return;
     }
@@ -210,46 +246,4 @@ export class ChatComponent implements OnInit{
       })
   }
 }
-
-@Component({
-  selector: 'delete-conversation-dialog',
-  templateUrl: './delete-conversation-dialog.component.html',
-  styleUrl: './delete-conversation-dialog.component.scss',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-  ],
-})
-export class DeleteConversationDialog {
-  constructor(
-    public dialogRef: MatDialogRef<DeleteConversationDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-  ) {}
-
-  #conversationService = inject(ConversationService);
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  deleteConversation(id: number) {
-    this.#conversationService.delete(id)
-      .pipe(first())
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-          window.location.reload();
-        },
-        error: (error) => {
-          console.error(error);
-        }
-      })
-  }
-}
+// change detection
