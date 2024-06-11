@@ -5,12 +5,14 @@ import {FeaturesComponent} from "./features/features.component";
 import {AboutUsComponent} from "@app/chat/about-us/about-us.component";
 import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "@app/register/register.component";
+import {PagenotfoundComponent} from "@app/pagenotfound/pagenotfound.component";
 
 export const ROUTES: Routes = [
   {path: '', component: HomeComponent, data: { title: 'Chatify' }},
   {path: 'chat', component: ChatComponent, data: { title: 'Chat' }},
-  {path: 'features', component: FeaturesComponent, data: { title: 'Features' }}, // TODO: add components
+  {path: 'features', component: FeaturesComponent, data: { title: 'Features' }},
   {path: 'about-us', component: AboutUsComponent, data: { title: 'About Us' }},
   {path: 'login', component: LoginComponent, data: { title: 'Login' }},
-  {path: 'register', component: RegisterComponent, data: { title: 'Register' }}
+  {path: 'register', component: RegisterComponent, data: { title: 'Register' }},
+  {path: '**', pathMatch: 'full', component: PagenotfoundComponent},
 ];

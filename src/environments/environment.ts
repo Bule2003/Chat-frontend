@@ -1,3 +1,12 @@
 export const environment = {
-  apiUrl: 'http://127.0.0.1:8000/api'
+  apiUrl: 'http://127.0.0.1:8000/api',
+  PUSHER_APP_ID: 1800093,
+  PUSHER_APP_KEY: '47b17929641671169853',
+  PUSHER_APP_SECRET: 'bf626bdfb696c600b337',
+  PUSHER_APP_HOST: '127.0.0.1',
+  PUSHER_APP_PORT: 443,
+  PUSHER_APP_SCHEME: "http",
+  PUSHER_APP_CLUSTER: "eu",
 };
+
+

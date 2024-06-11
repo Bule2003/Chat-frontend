@@ -1,5 +1,5 @@
 <h1>Chat</h1>
-<div class="chat-container" (scroll)="onScroll()" #scrollableDiv>
+<div (scroll)="onScroll()" #scrollableDiv>
   <div class="header">
     <h3>Your chats</h3>
     <button id="chat-btn" mat-flat-button color="primary" (click)="onClick()">Start a new chat +</button>
@@ -26,17 +26,20 @@
   <!--<div *ngIf="!hasMoreConversations && !loading" class="no-more">
     No more chats
   </div>-->
-  <div class="messages-container" *ngIf="selectedConversation">
+  <div class="chat-box" *ngIf="selectedConversation">
     <h3>{{ selectedConversation.title }}</h3>
     <p *ngIf="selectedConversation.messages.length === 0" class="no-content">No messages yet.</p>
-    <ul *ngIf="selectedConversation.messages.length > 0">
-      <li *ngFor="let message of selectedConversation.messages">
-        <div class="message-format">
-          <p><b>{{message.sender_username}}:</b> {{message.content}}</p><span>{{message.sent_at}}</span>
-        </div>
-        <mat-divider></mat-divider>
-      </li>
-    </ul>
+    <div class="chat-box-messages" id="chat-messages">
+      <ul *ngIf="selectedConversation.messages.length > 0">
+        <li *ngFor="let message of selectedConversation.messages">
+          @if (this.user.username !== message.sender_username) {
+            <div [ngClass]="['message', 'other_user']"><p><b>{{message.sender_username}}:</b> {{message.content}}</p><span>{{message.sent_at}}</span></div>
+          } @else {
+            <div [ngClass]="['message', 'current_user']"><p><b>{{message.sender_username}}:</b> {{message.content}}</p><span>{{message.sent_at}}</span></div>
+          }
+        </li>
+      </ul>
+    </div>
     <div>
       <form class="header" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
         <mat-form-field class="input">

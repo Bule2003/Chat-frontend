@@ -9,7 +9,6 @@ export class JwtInterceptor implements HttpInterceptor
   {
     let token = localStorage.getItem('access_token');
     if (token) {
-      console.log('The JWT is: ', token);
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`

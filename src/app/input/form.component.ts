@@ -15,6 +15,7 @@ import {MatButton} from "@angular/material/button";
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AccountService} from "@app/_services";
 import {first} from "rxjs/operators";
+import {Location} from '@angular/common';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -45,7 +46,7 @@ export class FormComponent implements OnInit {
   data: any;
   message: any = '';
   /*isLoggedIn: boolean = false;*/
-
+  token = localStorage.getItem('access_token');
   matcher = new MyErrorStateMatcher();
 
   form!: FormGroup;
@@ -57,11 +58,12 @@ export class FormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private _location: Location,
   ) {
-    // redirect to home if already logged in
-    /*$this.isLoggedIn = true;*/
+
     if (this.accountService.userValue) {
+      console.log('User already logged in ', this.accountService.userValue);
       this.router.navigate(['/']);
     }
   }

@@ -29,7 +29,6 @@ export class AccountService {
   }
 
   public get userValue() {
-    console.log(this.userSubject.value);
     return this.userSubject.value;
   }
 
@@ -62,7 +61,7 @@ export class AccountService {
     localStorage.removeItem('user');
     this.tokenSubject.next(null);
     this.isLoggedIn = false;
-    this.#router.navigate(['/login']);
+    this.#router.navigateByUrl('/login');
   }
 
   register(first_name: string | null, last_name: string | null, username: string | null ,    email: string | null, password: string | null, password_confirmation: string | null) {

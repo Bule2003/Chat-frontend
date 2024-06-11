@@ -1,0 +1,7 @@
+﻿feat: Implement frontend changes
+
+- Add a custom 404 page for handling not found routes.
+- Implement creation of Echo channel instance in EchoService.
+- Update authorization logic in EchoService to include socket_id and channel_name parameters.
+- Configure login/logout redirection to appropriate pages.
+- Create custom chat message boxes for sender and receiver with distinct styles.

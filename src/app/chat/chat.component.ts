@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MessageService} from "@app/_services/message.service";
 import {MatButtonModule} from "@angular/material/button";
 import {ConversationService} from "@app/_services/conversation.service";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {MatListModule} from "@angular/material/list";
 import {MatDividerModule} from "@angular/material/divider";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -26,6 +26,7 @@ import {
 import {DeleteConversationDialog} from "@app/delete-conversation-dialog/delete-conversation-dialog.component";
 import {UpdateConversationDialog} from "@app/update-conversation-dialog/update-conversation-dialog.component";
 import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
+import {EchoService} from "@app/_services/echo.service";
 
 export interface DialogData {
   selectedConversation: any;
@@ -51,7 +52,8 @@ export interface DialogData {
     MatCard,
     MatCardContent,
     MatIcon,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    NgClass
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
@@ -83,8 +85,18 @@ export class ChatComponent implements OnInit{
     this.user = this.#accountService.userValue;
   }
 
+  #route = inject(ActivatedRoute);
+  #router = inject(Router);
+  #accountService = inject(AccountService);
+  #conversationService = inject(ConversationService);
+  #messageService = inject(MessageService);
+  #echoService = inject(EchoService);
 
   ngOnInit() {
+    if (!this.#accountService.userValue) {
+      this.#router.navigate(['/login']);
+    }
+
     this.messageForm = this.formBuilder.group({
       content: ['', Validators.required]
     })
@@ -92,14 +104,25 @@ export class ChatComponent implements OnInit{
       title: ['', Validators.required],
       recipient_user: ['', Validators.required]
     })
+
     this.loadConversations();
+
+    /*this.#route.params.subscribe(params => {
+      const conversationId = params['id'];
+      if (conversationId) {
+        this.selectConversation(conversationId);
+      }
+    })*/
   }
 
-  #route = inject(ActivatedRoute);
-  #router = inject(Router);
-  #accountService = inject(AccountService);
-  #conversationService = inject(ConversationService);
-  #messageService = inject(MessageService);
+  subscribeToConversation(conversationId: number) {
+    console.log(`Subscribing to conversation ${conversationId}`);
+    this.#echoService.listen(`chat.${conversationId}`, '.MessageSent', (data: any) => {
+      console.log('Message received', data);
+      this.messages.push(data.message);
+      this.scrollToBottom();
+    })
+  }
 
   // TODO: move more request logic to services
 
@@ -110,7 +133,17 @@ export class ChatComponent implements OnInit{
 
     this.loading = true;
 
-    this.#conversationService.getConversations(this.currentPage).subscribe(
+    this.#conversationService.getConversations().subscribe(
+      data => {
+        this.loading = false;
+        this.conversations = data.data;
+      },
+      error => {
+        console.error('Error fetching conversations', error);
+      }
+    )
+
+    /*this.#conversationService.getConversations(this.currentPage).subscribe(
       (data) => {
         this.conversations = [...this.conversations, ...data.data];
         this.hasMoreConversations = data.next_page_url != null;
@@ -121,7 +154,7 @@ export class ChatComponent implements OnInit{
         this.loading = false;
         console.error('Error fetching conversations', error);
       }
-    )
+    )*/
   }
 
   openUpdateDialog(): void {
@@ -203,7 +236,6 @@ export class ChatComponent implements OnInit{
           this.message='';
           this.errorMessageSubject.next(null);
           this.closePopup();
-          /*window.location.reload();*/
         },
         error: error => {
           this.message = error.error.message;
@@ -216,6 +248,8 @@ export class ChatComponent implements OnInit{
 
   selectConversation(conversation: any): void {
     this.selectedConversation = conversation;
+    this.messages = conversation.messages || [];
+    this.subscribeToConversation(conversation.id);
   }
 
   get f() { return this.messageForm.controls; }
@@ -237,8 +271,9 @@ export class ChatComponent implements OnInit{
     this.#messageService.SendMessage(this.selectedConversation.id, sender_username, recipient_username, this.f.content.value)
       .pipe(first())
       .subscribe({
-        next: () => {
-          window.location.reload();
+        next: (res) => {
+          /*this.messageForm.reset();*/
+            /*this.scrollToBottom();*/
         },
         error: error => {
           this.message = error.error.message;
@@ -246,6 +281,14 @@ export class ChatComponent implements OnInit{
           this.error = error;
         }
       })
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      if (this.scrollableDiv) {
+        this.scrollableDiv.nativeElement.scrollTop = this.scrollableDiv.nativeElement.scrollHeight;
+      }
+    }, 100);
   }
 }
 // change detection
