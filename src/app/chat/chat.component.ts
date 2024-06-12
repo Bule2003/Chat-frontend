@@ -119,12 +119,14 @@ export class ChatComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
-    console.log('Scrollable div in ngAfterViewInit:', this.scrollableDiv);
 
     if(!this.scrollableDiv) {
       console.log('after view init');
       this.cdr.detectChanges();
     }
+    console.log('Scrollable div in ngAfterViewInit:', this.scrollableDiv);
+
+    this.scrollToBottom();
   }
 
   // TODO: move more request logic to services
@@ -278,6 +280,7 @@ export class ChatComponent implements OnInit, AfterViewInit{
     this.cdr.detectChanges();
     console.log('selecting conversation...');
     console.log(this.scrollableDiv);
+    this.scrollOnLoad();
   }
 
   get f() { return this.messageForm.controls; }
@@ -309,6 +312,12 @@ export class ChatComponent implements OnInit, AfterViewInit{
           this.error = error;
         }
       })
+  }
+
+  scrollOnLoad() {
+    if (this.scrollableDiv) {
+      this.scrollableDiv.nativeElement.scrollTop = this.scrollableDiv.nativeElement.scrollHeight;
+    }
   }
 
   scrollToBottom() {

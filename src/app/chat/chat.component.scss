@@ -80,12 +80,25 @@ li {
 }
 
 #send-message-input {
-  width: 85%;
+  margin-top: 12px;
+  margin-left: 12px;
+  width: 92%;
+}
+
+.send-btn-container {
+  margin-right: 10px;
+  margin-bottom: 15px;
 }
 
 .send-btn {
-  margin-right: 30px;
+  color: white;
+  background-color: #007bff;
 }
+
+/*.send-btn:disabled {
+  color: gray;
+  background-color: #007bff;
+}*/
 
 .popup-overlay {
   position: fixed;

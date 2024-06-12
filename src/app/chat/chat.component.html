@@ -49,16 +49,21 @@
     </div>
     <div>
       <form class="header" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
-        <mat-form-field class="input">
+        <mat-form-field id="send-message-input">
           <mat-label>Send a message:</mat-label>
-          <input id="send-message-input" type="text" matInput formControlName="content" placeholder="message">
+          <input type="text" matInput formControlName="content" placeholder="message">
           @if (messageForm.controls['content'].hasError('required')) {
             <mat-error>Enter a message first!</mat-error>
           }
         </mat-form-field>
-        <button type="submit" class="send-btn" mat-flat-button color="primary" [disabled]="!messageForm.valid">Send</button>
+        <div class="send-btn-container">
+          @if (messageForm.valid) {
+            <button class="send-btn" type="submit" mat-icon-button>
+              <mat-icon>send</mat-icon>
+            </button>
+          }
+        </div>
       </form>
-      <!--<button (click)="deleteConversation(selectedConversation.id)" class="delete-conversation-btn" mat-flat-button color="warn">Delete conversation</button>-->
       <button (click)="openUpdateDialog()" id="update-conversation-btn" mat-flat-button color="primary">Update conversation</button>
       <button (click)="openDeleteDialog()" id="delete-conversation-btn" mat-flat-button color="warn">Delete conversation</button>
     </div>
