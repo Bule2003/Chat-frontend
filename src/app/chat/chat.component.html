@@ -1,5 +1,5 @@
 <h1>Chat</h1>
-<div (scroll)="onScroll()" #scrollableDiv>
+<div>
   <div class="header">
     <h3>Your chats</h3>
     <button id="chat-btn" mat-flat-button color="primary" (click)="onClick()">Start a new chat +</button>
@@ -29,7 +29,7 @@
   <div class="chat-box" *ngIf="selectedConversation">
     <h3>{{ selectedConversation.title }}</h3>
     <p *ngIf="selectedConversation.messages.length === 0" class="no-content">No messages yet.</p>
-    <div class="chat-box-messages" id="chat-messages">
+    <div class="chat-box-messages" id="chat-messages" (scroll)="onScroll()" #scrollableDiv>
       <ul *ngIf="selectedConversation.messages.length > 0">
         <li *ngFor="let message of selectedConversation.messages">
           @if (this.user.username !== message.sender_username) {
@@ -39,6 +39,13 @@
           }
         </li>
       </ul>
+    </div>
+    <div class="down-btn-container">
+    @if (this.isNotBottom) {
+        <button mat-icon-button class="down-btn" (click)="handleScrollToBottom()">
+          <mat-icon>keyboard_double_arrow_down</mat-icon>
+        </button>
+    }
     </div>
     <div>
       <form class="header" [formGroup]="messageForm" (ngSubmit)="sendMessage()">

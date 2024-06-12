@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Inject, inject, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MessageService} from "@app/_services/message.service";
 import {MatButtonModule} from "@angular/material/button";
@@ -58,7 +58,7 @@ export interface DialogData {
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
-export class ChatComponent implements OnInit{
+export class ChatComponent implements OnInit, AfterViewInit{
   title = 'Chat';
   conversations: any[] = [];
   messages: any[] = [];
@@ -76,12 +76,17 @@ export class ChatComponent implements OnInit{
   user: any;
   showPopup = false;
 
-  @ViewChild('scrollableDiv', { static: false}) scrollableDiv?: ElementRef;
+  @ViewChild('scrollableDiv', {static: false}) scrollableDiv?: ElementRef; // change back to false
+  isNotBottom: boolean = false;
 
   private errorMessageSubject = new BehaviorSubject<string | null>(null);
   errorMessage$ = this.errorMessageSubject.asObservable();
 
-  constructor(private formBuilder: FormBuilder, public dialog: MatDialog) {
+  constructor(
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef
+  ) {
     this.user = this.#accountService.userValue;
   }
 
@@ -93,6 +98,8 @@ export class ChatComponent implements OnInit{
   #echoService = inject(EchoService);
 
   ngOnInit() {
+    console.log('Scrollable div in ngOnInit: ', this.scrollableDiv);
+
     if (!this.#accountService.userValue) {
       this.#router.navigate(['/login']);
     }
@@ -107,21 +114,17 @@ export class ChatComponent implements OnInit{
 
     this.loadConversations();
 
-    /*this.#route.params.subscribe(params => {
-      const conversationId = params['id'];
-      if (conversationId) {
-        this.selectConversation(conversationId);
-      }
-    })*/
+    this.subscribeToConversation();
+
   }
 
-  subscribeToConversation(conversationId: number) {
-    console.log(`Subscribing to conversation ${conversationId}`);
-    this.#echoService.listen(`chat.${conversationId}`, '.MessageSent', (data: any) => {
-      console.log('Message received', data);
-      this.messages.push(data.message);
-      this.scrollToBottom();
-    })
+  ngAfterViewInit() {
+    console.log('Scrollable div in ngAfterViewInit:', this.scrollableDiv);
+
+    if(!this.scrollableDiv) {
+      console.log('after view init');
+      this.cdr.detectChanges();
+    }
   }
 
   // TODO: move more request logic to services
@@ -137,6 +140,9 @@ export class ChatComponent implements OnInit{
       data => {
         this.loading = false;
         this.conversations = data.data;
+        console.log('subscribe');
+        console.log(this.scrollableDiv);
+        this.cdr.detectChanges();
       },
       error => {
         console.error('Error fetching conversations', error);
@@ -178,7 +184,29 @@ export class ChatComponent implements OnInit{
   }
 
   onScroll(): void {
+    console.log('scrolled!');
     const nativeElement = this.scrollableDiv?.nativeElement;
+    const threshold = 500;
+
+    if (nativeElement) {
+      const isBottom = nativeElement.scrollHeight - nativeElement.scrollTop - nativeElement.clientHeight <= 100;
+      const isNearBottom = nativeElement.scrollHeight - nativeElement.scrollTop - nativeElement.clientHeight <= threshold;
+      this.isNotBottom = nativeElement.scrollHeight - nativeElement.scrollTop - nativeElement.clientHeight > threshold;
+
+      if (isBottom) {
+        console.log('Reached the bottom of the container');
+      }
+
+      if (isNearBottom) {
+        console.log('Near bottom of the container');
+        /*this.loadConversations();*/
+      }
+
+      if (this.isNotBottom) {
+        console.log('Not at the bottom of the container');
+      }
+    }
+
     const bottom = nativeElement.scrollHeight - nativeElement.scrollTop === nativeElement.clientHeight;
     if (bottom) {
       console.log('Reached bottom of the container');
@@ -240,8 +268,6 @@ export class ChatComponent implements OnInit{
         error: error => {
           this.message = error.error.message;
           this.errorMessageSubject.next(this.message);
-          // @ts-ignore
-          /*console.log(this.errorMessage$?.source?.value);*/
         }
       })
   }
@@ -249,7 +275,9 @@ export class ChatComponent implements OnInit{
   selectConversation(conversation: any): void {
     this.selectedConversation = conversation;
     this.messages = conversation.messages || [];
-    this.subscribeToConversation(conversation.id);
+    this.cdr.detectChanges();
+    console.log('selecting conversation...');
+    console.log(this.scrollableDiv);
   }
 
   get f() { return this.messageForm.controls; }
@@ -272,8 +300,8 @@ export class ChatComponent implements OnInit{
       .pipe(first())
       .subscribe({
         next: (res) => {
-          /*this.messageForm.reset();*/
-            /*this.scrollToBottom();*/
+          this.messageForm.reset();
+            this.scrollToBottom();
         },
         error: error => {
           this.message = error.error.message;
@@ -284,11 +312,32 @@ export class ChatComponent implements OnInit{
   }
 
   scrollToBottom() {
+    console.log('scrolling to bottom...');
     setTimeout(() => {
       if (this.scrollableDiv) {
         this.scrollableDiv.nativeElement.scrollTop = this.scrollableDiv.nativeElement.scrollHeight;
       }
-    }, 100);
+    }, 700);
+
+  }
+
+  handleScrollToBottom() {
+    console.log('scrolling to bottom...');
+    if (this.scrollableDiv) {
+      const scrollOptions: ScrollIntoViewOptions = {behavior: 'smooth', block: 'end'};
+      this.scrollableDiv.nativeElement.scrollTo({
+        ...scrollOptions,
+        top: this.scrollableDiv.nativeElement.scrollHeight,
+      })
+    }
+  }
+
+  private subscribeToConversation() {
+    console.log('Subscribing to conversation');
+    this.#echoService.listen('chat', '.MessageSent', (data: any) => {
+      console.log('Message received', data);
+      this.messages.push(data.message);
+      this.scrollToBottom();
+    })
   }
 }
-// change detection

@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 h1, h3 {
   padding-left: 12px;
   padding-bottom: 20px;
@@ -141,6 +145,20 @@ li {
 
 #delete-conversation-btn {
   margin: 14px;
+}
+
+.down-btn-container {
+  /*display: flex;
+  float: right;
+  padding-right: 35px;*/
+  position: fixed;
+  bottom: 180px; /* Adjust as needed */
+  right: 40px; /* Adjust as needed */
+  z-index: 9999; /* Ensure it's above other content */
+}
+
+.down-btn {
+  background-color: #f9f9f9;
 }
 
 .chat-box {
