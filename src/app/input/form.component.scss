@@ -1,12 +1,16 @@
 .form-div {
+  display: flex;
   height: 100%;
-  width: 100%;
+  width: 500px;
+  text-align: center;
+  flex-direction: column;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 h2 {
   color: #007bff;
+  padding-bottom: 25px;
 }
 
 .input {
@@ -15,35 +19,40 @@ h2 {
   --mdc-filled-text-field-focus-label-text-color: #007bff !important;
 }
 
+#input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
 .example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
 }
 
 .example-full-width {
   --mdc-filled-text-field-caret-color: #007bff !important;
   --mdc-filled-text-field-focus-active-indicator-color: #007bff !important;
   --mdc-filled-text-field-focus-label-text-color: #007bff !important;
-  width: 100%;
+  width: 90%;
 }
 
 .submit-div {
-  padding: 10px;
+  padding: 25px;
 }
 
 #sign-in-btn {
   background-color: #007bff;
   font-weight: bold;
   color: white;
-  width: 100%;
+  width: 300px;
 }
 
 #sign-in-btn:hover {
   background-color: #007bff;
   font-weight: bold;
   color: white;
-  width: 100%;
+  width: 300px;
 }
 
 #sign-in-btn:disabled {
@@ -51,7 +60,7 @@ h2 {
   font-weight: bold;
   border: solid #007bff;
   color: #007bff;
-  width: 100%;
+  width: 300px;
 }
 
 #submit-error {

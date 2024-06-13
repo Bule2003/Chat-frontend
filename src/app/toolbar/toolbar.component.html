@@ -4,21 +4,28 @@
        &lt;!&ndash;<span>{{ title }}</span>&ndash;&gt;
     </a>
   </div>-->
-  <a routerLink="/" aria-label="Example icon button with the logo icon">
+  <a routerLink="/" aria-label="Example icon button with the logo icon" id="home-link">
     <!--Chatify-->
-      <app-svg-icon [path]="'assets/logo.svg'"></app-svg-icon>
+    <app-svg-icon [path]="'assets/logo.svg'"></app-svg-icon>
+    <span id="title">Chatify</span>
   </a>
     <span class="example-spacer"></span>
 
     <div id="div_navbar">
       <ul id="ul_navbar">
-        <li><a routerLink="/chat"
+        <li><a
+               class="nav-link"
+               routerLink="/chat"
                routerLinkActive="active"
                ariaCurrentWhenActive="page">Chat</a></li>
-        <li><a routerLink="/features"
+        <li><a
+               class="nav-link"
+               routerLink="/features"
                routerLinkActive="active"
                ariaCurrentWhenActive="page">Features</a></li>
-        <li><a routerLink="/about-us"
+        <li><a
+               class="nav-link"
+               routerLink="/about-us"
                routerLinkActive="active"
                ariaCurrentWhenActive="page">About Us</a></li>
         <li *ngIf="!accountService.isLoggedIn">

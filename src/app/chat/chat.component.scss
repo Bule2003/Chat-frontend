@@ -94,6 +94,9 @@ li {
   margin-top: 12px;
   margin-left: 12px;
   width: 92%;
+  --mdc-filled-text-field-caret-color: #007bff !important;
+  --mdc-filled-text-field-focus-active-indicator-color: #007bff !important;
+  --mdc-filled-text-field-focus-label-text-color: #007bff !important;
 }
 
 .send-btn-container {
@@ -127,6 +130,12 @@ li {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.3s ease-in-out;
   position: relative;
+}
+
+.input {
+  --mdc-filled-text-field-caret-color: #007bff !important;
+  --mdc-filled-text-field-focus-active-indicator-color: #007bff !important;
+  --mdc-filled-text-field-focus-label-text-color: #007bff !important;
 }
 
 .close-btn {

@@ -1,23 +1,56 @@
+h2 {
+  color: #007bff;
+}
+
 .main-div {
   margin: 0;
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  height: 85%;
+  width: 500px;
+  text-align: center;
+  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
 }
 
-.example-full-width {
-  width: 100%;
+.input {
+  width: 90%;
+  --mdc-filled-text-field-caret-color: #007bff !important;
+  --mdc-filled-text-field-focus-active-indicator-color: #007bff !important;
+  --mdc-filled-text-field-focus-label-text-color: #007bff !important;
 }
 
 .submit-div {
-  padding: 10px;
+  padding: 20px;
+}
+
+#register-btn {
+  background-color: #007bff;
+  font-weight: bold;
+  color: white;
+  width: 300px;
+}
+
+#register-btn:hover {
+  background-color: #007bff;
+  font-weight: bold;
+  color: white;
+  width: 300px;
+}
+
+#register-btn:disabled {
+  background-color: white;
+  font-weight: bold;
+  border: solid #007bff;
+  color: #007bff;
+  width: 300px;
 }
 
 #sign-in-link {

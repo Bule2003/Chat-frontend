@@ -8,9 +8,9 @@
     <ul class="conversations" *ngIf="conversations.length > 0">
       <li *ngFor="let conversation of conversations" (click)="selectConversation(conversation)">
         @if (this.user.username !== conversation.users[1].username) {
-          <p><b>Chat {{ conversation.id }} with {{ conversation.users[1].username }}:</b> {{ conversation.title }}</p>
+          <p><b>{{ conversation.users[1].username }}:</b> {{ conversation.title }}</p>
         } @else {
-          <p><b>Chat {{ conversation.id }} with {{ conversation.users[0].username }}:</b> {{ conversation.title }}</p>
+          <p><b>{{ conversation.users[0].username }}:</b> {{ conversation.title }}</p>
         }
         <mat-divider></mat-divider>
       </li>
@@ -50,7 +50,7 @@
       <form class="header" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
         <mat-form-field id="send-message-input">
           <mat-label>Send a message:</mat-label>
-          <input type="text" matInput formControlName="content" placeholder="message">
+          <input type="text" matInput formControlName="content" placeholder="message" class="message-input">
           @if (messageForm.controls['content'].hasError('required') && messageForm.controls['content'].touched) {
             <mat-error>Enter a message first!</mat-error>
           }

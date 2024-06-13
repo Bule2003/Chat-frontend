@@ -1,6 +1,7 @@
 <div class="form-div">
-  <h2>Sign in</h2>
+  <h2>Sign in to Chatify</h2>
   <form [formGroup]="form" class="example-form" (ngSubmit)="onSubmit()" >
+    <div id="input-container">
     <mat-form-field class="example-full-width">
       <mat-label>Email</mat-label>
       <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
@@ -29,6 +30,7 @@
         <mat-error>Email or password incorrect</mat-error>
       }
     </mat-form-field>
+    </div>
     <div class="submit-div">
       <button id="sign-in-btn" mat-flat-button type="submit" [disabled]="!form.valid || loading">Submit</button>
     </div>
