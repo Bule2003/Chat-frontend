@@ -30,7 +30,7 @@
       }
     </mat-form-field>
     <div class="submit-div">
-      <button class="sign-in-btn" mat-flat-button color="primary" type="submit" [disabled]="!form.valid || loading">Submit</button>
+      <button id="sign-in-btn" mat-flat-button type="submit" [disabled]="!form.valid || loading">Submit</button>
     </div>
     <div id="submit-error">
       @if ( message ) {

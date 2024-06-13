@@ -1,3 +1,19 @@
+.primary {
+  color: white;
+  background-color: #007bff;
+}
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+}
+
+.logo {
+  height:  100%;
+  width: auto;
+}
+
 a {
   color:white;
   padding: 10px;
@@ -5,42 +21,39 @@ a {
 }
 
 a:hover {
-  background: #272788;
-  border-radius: 10px;
-}
-
-.a_login:hover {
-  margin: 5px;
-  background: #f447a4;
+  background: #016fe8;
   border-radius: 10px;
 }
 
 .active {
-  background: #272788;
-  border-radius: 10px;
-}
-
-.a_login {
-  margin: 5px;
-  background: deeppink;
+  background: #0061ce;
   border-radius: 10px;
 }
 
 .login-btn {
-  padding: 10px;
-  margin: 5px;
+  align-items: center;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  /*margin: 5px;*/
   height: 44px;
-  color: white;
-  background: deeppink;
+  color: #007bff;
+  background: white;
   font-size: large;
+  font-weight: bolder;
   border-radius: 10px;
   border: none;
   width: 90px
 }
 
 .login-btn:hover {
-  margin: 5px;
-  background: #f447a4;
+  cursor: pointer;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  background: #007bff;
+  color: white;
+  border: solid white;
   border-radius: 10px;
 }
 
@@ -54,10 +67,11 @@ a:hover {
 
 #ul_navbar li{
   margin: 10px 10px 10px 10px;
-  display: inline;
+  display: inline-block;
 }
 
 #home {
+  background-color: #007bff;
   margin-left: 8px;
   margin-right: 20px;
 }

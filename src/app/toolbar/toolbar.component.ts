@@ -7,6 +7,7 @@ import {NgForm, ReactiveFormsModule} from "@angular/forms";
 import {AccountService} from "@app/_services";
 import {CommonModule} from "@angular/common";
 import {first} from "rxjs/operators";
+import {SvgIconComponent} from "@app/ui/svg-icon/svg-icon.component";
 
 // TODO: fix logout issue
 
@@ -22,6 +23,7 @@ import {first} from "rxjs/operators";
     RouterLinkActive,
     RouterOutlet,
     ReactiveFormsModule,
+    SvgIconComponent,
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss'

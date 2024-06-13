@@ -1,5 +1,18 @@
 .form-div {
-  /*margin: auto;*/
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  color: #007bff;
+}
+
+.input {
+  --mdc-filled-text-field-caret-color: #007bff !important;
+  --mdc-filled-text-field-focus-active-indicator-color: #007bff !important;
+  --mdc-filled-text-field-focus-label-text-color: #007bff !important;
 }
 
 .example-form {
@@ -9,6 +22,9 @@
 }
 
 .example-full-width {
+  --mdc-filled-text-field-caret-color: #007bff !important;
+  --mdc-filled-text-field-focus-active-indicator-color: #007bff !important;
+  --mdc-filled-text-field-focus-label-text-color: #007bff !important;
   width: 100%;
 }
 
@@ -16,8 +32,26 @@
   padding: 10px;
 }
 
-.sign-in-btn {
-  width: 125px;
+#sign-in-btn {
+  background-color: #007bff;
+  font-weight: bold;
+  color: white;
+  width: 100%;
+}
+
+#sign-in-btn:hover {
+  background-color: #007bff;
+  font-weight: bold;
+  color: white;
+  width: 100%;
+}
+
+#sign-in-btn:disabled {
+  background-color: white;
+  font-weight: bold;
+  border: solid #007bff;
+  color: #007bff;
+  width: 100%;
 }
 
 #submit-error {

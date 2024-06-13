@@ -210,10 +210,10 @@ export class ChatComponent implements OnInit, AfterViewInit{
     }
 
     const bottom = nativeElement.scrollHeight - nativeElement.scrollTop === nativeElement.clientHeight;
-    if (bottom) {
+    /*if (bottom) {
       console.log('Reached bottom of the container');
       this.loadConversations();
-    }
+    }*/
     /*const threshold: number = 150;
     const position = this.scrollableDiv?.nativeElement.scrollTop + this.scrollableDiv?.nativeElement.clientHeight;
     const height = this.scrollableDiv?.nativeElement.scrollHeight;
@@ -304,7 +304,16 @@ export class ChatComponent implements OnInit, AfterViewInit{
       .subscribe({
         next: (res) => {
           this.messageForm.reset();
-            this.scrollToBottom();
+          Object.keys(this.messageForm.controls).forEach(key => {
+            this.messageForm?.get(key)?.setErrors(null) ;
+          });
+          this.messageForm.markAsUntouched();
+          this.messageForm.markAsPristine();
+          console.log(this.messageForm.dirty);
+          /*this.messageForm.reset();
+          this.messageForm.setErrors(null);*/
+          /*console.log(this.messageForm.touched);*/
+          this.scrollToBottom();
         },
         error: error => {
           this.message = error.error.message;

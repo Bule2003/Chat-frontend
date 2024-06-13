@@ -1,8 +1,7 @@
-<h1>Chat</h1>
 <div>
   <div class="header">
     <h3>Your chats</h3>
-    <button id="chat-btn" mat-flat-button color="primary" (click)="onClick()">Start a new chat +</button>
+    <button id="chat-btn" mat-flat-button (click)="onClick()">Start a new chat +</button>
   </div>
   <div id="main-div">
     <p *ngIf="conversations.length === 0 && !loading" class="no-content">Don't see your chat? Try refreshing the page or contact the support.</p>
@@ -52,19 +51,19 @@
         <mat-form-field id="send-message-input">
           <mat-label>Send a message:</mat-label>
           <input type="text" matInput formControlName="content" placeholder="message">
-          @if (messageForm.controls['content'].hasError('required')) {
+          @if (messageForm.controls['content'].hasError('required') && messageForm.controls['content'].touched) {
             <mat-error>Enter a message first!</mat-error>
           }
         </mat-form-field>
         <div class="send-btn-container">
-          @if (messageForm.valid) {
-            <button class="send-btn" type="submit" mat-icon-button>
+          @if (messageForm.dirty) {
+            <button class="send-btn" type="submit" mat-icon-button [disabled]="!messageForm.valid">
               <mat-icon>send</mat-icon>
             </button>
           }
         </div>
       </form>
-      <button (click)="openUpdateDialog()" id="update-conversation-btn" mat-flat-button color="primary">Update conversation</button>
+      <button (click)="openUpdateDialog()" mat-flat-button id="update-conversation-btn">Update conversation</button>
       <button (click)="openDeleteDialog()" id="delete-conversation-btn" mat-flat-button color="warn">Delete conversation</button>
     </div>
   </div>
@@ -95,18 +94,9 @@
             @if (conversationForm.controls['recipient_user'].hasError('required')) {
               <mat-error>Recipient username field is required</mat-error>
             }
-
-            <!--@if (this.errorMessage$) {
-              {{ this.errorMessage$?.source }}
-            }-->
-
-            <!--@if (this.errorMessage$) {
-              <mat-error>{{ this.errorMessage$?.source?.value }}</mat-error>
-            }-->
-
             <!--TODO: add error message when user doesn't exist-->
           </mat-form-field>
-          <button type="submit" class="send-btn" mat-flat-button color="primary" [disabled]="!conversationForm.valid">Create</button>
+          <button type="submit" mat-flat-button class="primary-btn" [disabled]="!conversationForm.valid">Create</button>
         </form>
   </div>
 </div>

@@ -1,11 +1,13 @@
-<mat-toolbar color="primary">
-  <div>
-    <button (click)="onNavigate('/')" id="home" mat-fab color="primary" aria-label="Example icon button with a home icon">
-      <mat-icon>home</mat-icon>
-    </button>
-  </div>
-    <span>{{ title }}</span>
-
+<mat-toolbar class="primary">
+  <!--<div>
+    <a href="/" aria-label="Example icon button with the logo icon">
+       &lt;!&ndash;<span>{{ title }}</span>&ndash;&gt;
+    </a>
+  </div>-->
+  <a routerLink="/" aria-label="Example icon button with the logo icon">
+    <!--Chatify-->
+      <app-svg-icon [path]="'assets/logo.svg'"></app-svg-icon>
+  </a>
     <span class="example-spacer"></span>
 
     <div id="div_navbar">
