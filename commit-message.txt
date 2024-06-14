@@ -1,0 +1,5 @@
+feat(ui): update login/register page and chat page, change icon button to logo link
+
+- Updated the design and layout of the login and register pages
+- Made changes to the chat page to enhance UI/UX
+- Replaced the icon button with the logo link on the toolbar for homepage navigation

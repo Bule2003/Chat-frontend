@@ -188,7 +188,7 @@ export class ChatComponent implements OnInit, AfterViewInit{
   onScroll(): void {
     console.log('scrolled!');
     const nativeElement = this.scrollableDiv?.nativeElement;
-    const threshold = 500;
+    const threshold = 300;
 
     if (nativeElement) {
       const isBottom = nativeElement.scrollHeight - nativeElement.scrollTop - nativeElement.clientHeight <= 100;
@@ -335,7 +335,7 @@ export class ChatComponent implements OnInit, AfterViewInit{
       if (this.scrollableDiv) {
         this.scrollableDiv.nativeElement.scrollTop = this.scrollableDiv.nativeElement.scrollHeight;
       }
-    }, 700);
+    }, 100);
 
   }
 
@@ -357,5 +357,9 @@ export class ChatComponent implements OnInit, AfterViewInit{
       this.messages.push(data.message);
       this.scrollToBottom();
     })
+  }
+
+  closeChat() {
+    this.selectedConversation = null;
   }
 }

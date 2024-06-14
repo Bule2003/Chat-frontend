@@ -26,9 +26,23 @@
     No more chats
   </div>-->
   <div class="chat-box" *ngIf="selectedConversation">
-    <h3>{{ selectedConversation.title }}</h3>
-    <p *ngIf="selectedConversation.messages.length === 0" class="no-content">No messages yet.</p>
+    <div>
+      <h3>{{ selectedConversation.title }}</h3>
+      <div class="close-btn-container">
+        <button class="close-btn" mat-icon-button (click)="closeChat()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div id="recipient-container">
+    @if (this.user.username !== selectedConversation.users[1].username) {
+      <p><b>{{ selectedConversation.users[1].username }}</b></p>
+    } @else {
+      <p><b>{{ selectedConversation.users[0].username }}</b></p>
+    }
+    </div>
     <div class="chat-box-messages" id="chat-messages" (scroll)="onScroll()" #scrollableDiv>
+      <p *ngIf="selectedConversation.messages.length === 0" class="no-content">No messages yet.</p>
       <ul *ngIf="selectedConversation.messages.length > 0">
         <li *ngFor="let message of selectedConversation.messages">
           @if (this.user.username !== message.sender_username) {

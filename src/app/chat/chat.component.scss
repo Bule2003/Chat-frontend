@@ -191,10 +191,24 @@ li {
   /*display: flex;
   float: right;
   padding-right: 35px;*/
-  position: fixed;
-  bottom: 180px; /* Adjust as needed */
+  position: absolute;
+  bottom: 55px; /* Adjust as needed */
   right: 40px; /* Adjust as needed */
   z-index: 9999; /* Ensure it's above other content */
+}
+
+.close-btn-container {
+  /*display: flex;
+  float: right;
+  padding-right: 35px;*/
+  position: absolute;
+  bottom: 394px; /* Adjust as needed */
+  right: 5px; /* Adjust as needed */
+  z-index: 9999; /* Ensure it's above other content */
+}
+
+.close-btn {
+  background-color: white;
 }
 
 .down-btn {
@@ -214,6 +228,10 @@ li {
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   font-family: Arial, sans-serif;
   background-color: #fff;
+}
+
+#recipient-container {
+  padding-left: 40px;
 }
 
 .chat-box-messages {
