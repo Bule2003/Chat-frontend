@@ -36,9 +36,11 @@
     </div>
     <div id="recipient-container">
     @if (this.user.username !== selectedConversation.users[1].username) {
+      <img ngSrc="{{ selectedConversation.users[1].image }}" alt="Profile Image" class="profile-image" width="30" height="30">
       <p><b>{{ selectedConversation.users[1].username }}</b></p>
     } @else {
-      <p><b>{{ selectedConversation.users[0].username }}</b></p>
+      {{ selectedConversation.users[0].image }}
+      <span><p><b>{{ selectedConversation.users[0].username }}</b></p></span>
     }
     </div>
     <div class="chat-box-messages" id="chat-messages" (scroll)="onScroll()" #scrollableDiv>

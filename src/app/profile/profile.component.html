@@ -1,0 +1,38 @@
+<div class="user-info-container">
+  <img ngSrc="{{ loggedInUser.image }}" alt="Profile Image" class="profile-image" width="100" height="100">
+  <div class="username">{{ loggedInUser.username }}</div>
+</div>
+
+<div class="container">
+  <h2>Upload Profile Picture</h2>
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div class="form-group">
+      <div class="mb-3">
+        <label for="UploadingControlInput" class="form-label">
+          Upload File/Image
+        </label>
+        <input
+          type="file"
+          class="form-control"
+          id="UploadingControlInput"
+          name="image"
+          formControlName="image"
+          (change)="uploadImage($event)"
+          placeholder="Upload Image"
+        >
+        <div class="invalid-feedback">
+          @if (submitted && f.image.errors) {
+            Image is required
+          }
+        </div>
+      </div>
+      <div class="mb-3">
+        <input type="submit" class="btn btn-success">
+      </div>
+
+    </div>
+  <!--<div *ngIf="imagePreview">
+    <img ngSrc="imagePreview" alt="Image Preview" class="img-thumbnail" height="30" width="30">
+  </div>-->
+  </form>
+</div>

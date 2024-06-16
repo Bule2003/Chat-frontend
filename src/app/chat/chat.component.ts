@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MessageService} from "@app/_services/message.service";
 import {MatButtonModule} from "@angular/material/button";
 import {ConversationService} from "@app/_services/conversation.service";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {MatListModule} from "@angular/material/list";
 import {MatDividerModule} from "@angular/material/divider";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -53,7 +53,8 @@ export interface DialogData {
     MatCardContent,
     MatIcon,
     NgxSkeletonLoaderModule,
-    NgClass
+    NgClass,
+    NgOptimizedImage
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'

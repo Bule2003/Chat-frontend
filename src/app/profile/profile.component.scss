@@ -1,0 +1,19 @@
+.user-info-container {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  padding-top: 30px;
+  padding-left: 30px;
+}
+
+.profile-image {
+  background-color: #007bff;
+  padding: 4px;
+  margin-right: 8px;
+  border-radius: 60px;
+}
+
+.username{
+  font-size: x-large;
+  padding-left: 15px;
+}

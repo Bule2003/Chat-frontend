@@ -140,7 +140,7 @@ li {
 
 .close-btn {
   position: absolute;
-  top: 10px;
+  top: 0;
   right: 10px;
 }
 
@@ -202,7 +202,7 @@ li {
   float: right;
   padding-right: 35px;*/
   position: absolute;
-  bottom: 394px; /* Adjust as needed */
+  bottom: 478px; /* Adjust as needed */
   right: 5px; /* Adjust as needed */
   z-index: 9999; /* Ensure it's above other content */
 }
@@ -231,7 +231,9 @@ li {
 }
 
 #recipient-container {
-  padding-left: 40px;
+  padding-left: 35px;
+  display: flex;
+  align-items: center;
 }
 
 .chat-box-messages {
@@ -262,6 +264,15 @@ li {
 .other_user {
   background-color: #e9ecef;
   color: #333;
+}
+
+.profile-image {
+  background-color: #007bff;
+  padding: 4px;
+  margin-right: 8px;
+  border-radius: 25px;
+  /*height: 50px;
+  width: 50px;*/
 }
 
 /*.chat-box-input {

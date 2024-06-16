@@ -1,5 +1,5 @@
 import { Injectable, Injector, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, catchError, Observable, throwError} from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -64,7 +64,7 @@ export class AccountService {
     this.#router.navigateByUrl('/login');
   }
 
-  register(first_name: string | null, last_name: string | null, username: string | null ,    email: string | null, password: string | null, password_confirmation: string | null) {
+  register(first_name: string | null, last_name: string | null, username: string | null , email: string | null, password: string | null, password_confirmation: string | null) {
     return this.#http.post<AuthResponse>(`${environment.apiUrl}/register`, {first_name, last_name, username, email, password, password_confirmation})
       .pipe(map(response => {
         this.isLoggedIn = true;
@@ -77,6 +77,22 @@ export class AccountService {
       catchError(error => {
         console.error('Error:', error);
         return throwError(error);
+      })
+    );
+  }
+
+  uploadUserImage(image: FormData){
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+    });
+
+    return this.#http.post(`${environment.apiUrl}/uploadUserImage`, image, {headers})
+      .pipe(map(response => {
+        console.log(response);
+      }),
+      catchError(err => {
+        console.error(err);
+        return err;
       })
     );
   }
