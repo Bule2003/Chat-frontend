@@ -1,3 +1,6 @@
+![image](https://github.com/Bule2003/Chat-frontend/assets/124057240/c547c41b-bfe5-4405-b103-34b05294992d)
+
+
 # Live Chat App
 
 Welcome to the Live Chat App! This project aims to provide users with a real-time messaging platform for seamless communication. Whether it's for personal or professional use, this app offers a user-friendly interface and robust features to enhance your chatting experience.
@@ -5,12 +8,9 @@ Welcome to the Live Chat App! This project aims to provide users with a real-tim
 ## Table of Contents
 
 - [Features](#features)
-- [Demo](#demo)
 - [Technologies Used](#technologies-used)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
@@ -20,10 +20,6 @@ Welcome to the Live Chat App! This project aims to provide users with a real-tim
 - Customizable chat boxes: Customize chat messages for sender and receiver.
 - Error handling: Proper handling of errors, including 404 pages.
 - Responsive design: Works seamlessly across devices of all sizes.
-
-## Demo
-
-[Try the Live Chat App here!](#) - Add a link to your live app if available. (TODO)
 
 ## Technologies Used
 
